@@ -10,6 +10,10 @@ Style/Documentation:
 Metrics/LineLength:
   Max: 120
 
+Layout/AlignHash:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
+
 Metrics/BlockLength:
   ExcludedMethods: [
     'describe', 'context', 'it', 'let', 'before', 'after', 'aggregate_failures'

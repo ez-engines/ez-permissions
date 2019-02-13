@@ -2,7 +2,10 @@
 # frozen_string_literal: true
 
 require 'fileutils'
+
+# rubocop: disable Style/MixinUsage
 include FileUtils
+# rubocop: enable Style/MixinUsage
 
 # path to your application root.
 APP_ROOT = File.expand_path('..', __dir__)
