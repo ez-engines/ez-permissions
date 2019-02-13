@@ -30,10 +30,11 @@ rails generate ez:permissions:migrations
 
 ## TODO
 
-- Add README
-- Add Role model
-- Add Permissions model
-- Add rails generators for migrations
++ Add README
++ Add Role model
++ Add Permissions model
+- Add PermissionsRole model
++ Add rails generators for migrations
 - Add rails generators for configuration
 - Add configuration DSL
 - Add permissions helpers like `can?`, `cannot?` and `authorize!`
