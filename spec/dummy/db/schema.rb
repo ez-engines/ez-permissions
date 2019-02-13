@@ -12,7 +12,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_213_143_726) do
+ActiveRecord::Schema.define(version: 20_190_213_153_826) do
+  create_table 'ez_permissions_permissions', force: :cascade do |t|
+    t.string 'resource', null: false
+    t.string 'action', null: false
+    t.integer 'scoped_id'
+    t.string 'scoped_type'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['action'], name: 'index_ez_permissions_permissions_on_action'
+    t.index ['resource'], name: 'index_ez_permissions_permissions_on_resource'
+    t.index ['scoped_id'], name: 'index_ez_permissions_permissions_on_scoped_id'
+    t.index ['scoped_type'], name: 'index_ez_permissions_permissions_on_scoped_type'
+  end
+
   create_table 'ez_permissions_roles', force: :cascade do |t|
     t.string 'name', null: false
     t.datetime 'created_at', null: false

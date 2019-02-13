@@ -21,6 +21,13 @@ Or install it yourself as:
 $ gem install ez-permissions
 ```
 
+## Generators
+
+Generate ActiveRecord migrations:
+```bash
+rails generate ez:permissions:migrations
+```
+
 ## TODO
 
 - Add README
