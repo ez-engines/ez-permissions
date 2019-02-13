@@ -1,0 +1,16 @@
+AllCops:
+  TargetRubyVersion: 2.5
+  Exclude:
+    - Guardfile
+    - config.ru
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/BlockLength:
+  ExcludedMethods: [
+    'describe', 'context', 'it', 'let', 'before', 'after', 'aggregate_failures'
+  ]
