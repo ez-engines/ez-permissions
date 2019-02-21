@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'ez/permissions/engine'
+require 'ez/permissions/dsl'
 require 'ez/configurator'
 
 module Ez
