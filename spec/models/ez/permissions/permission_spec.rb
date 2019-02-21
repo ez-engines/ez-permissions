@@ -7,8 +7,6 @@ RSpec.describe Ez::Permissions::Permission do
     before do
       subject.resource = 'users'
       subject.action = 'read'
-      subject.scoped_id = 1
-      subject.scoped_type = 'Project'
       subject.save!
     end
 
@@ -18,14 +16,6 @@ RSpec.describe Ez::Permissions::Permission do
 
     it 'has action' do
       expect(subject.action).to eq 'read'
-    end
-
-    it 'has scope_id' do
-      expect(subject.scoped_id).to eq 1
-    end
-
-    it 'has scope_type' do
-      expect(subject.scoped_type).to eq 'Project'
     end
   end
 

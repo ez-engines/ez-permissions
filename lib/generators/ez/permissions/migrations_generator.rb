@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/MethodLength
 module Ez
   module Permissions
     class MigrationsGenerator < Rails::Generators::Base
@@ -20,8 +21,6 @@ end
     create_table :ez_permissions_permissions do |t|
       t.string :resource, index: true, null: false
       t.string :action, index: true, null: false
-      t.integer :scoped_id, index: true
-      t.string :scoped_type, index: true
       t.timestamps null: false
     end
   end
@@ -31,3 +30,4 @@ end
     end
   end
 end
+# rubocop: enable Metrics/MethodLength
