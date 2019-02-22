@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 begin
   require 'bundler/setup'
 rescue LoadError
@@ -16,19 +14,15 @@ RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-APP_RAKEFILE = File.expand_path('spec/dummy/Rakefile', __dir__)
+APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", __FILE__)
 load 'rails/tasks/engine.rake'
 
 load 'rails/tasks/statistics.rake'
 
 require 'bundler/gem_tasks'
 
-require 'rake/testtask'
+require "rspec/core/rake_task"
 
-Rake::TestTask.new(:spec) do |t|
-  t.libs << 'spec'
-  t.pattern = 'spec/**/*_spec.rb'
-  t.verbose = false
-end
+RSpec::Core::RakeTask.new(:spec)
 
-task default: :test
+task :default => :spec
