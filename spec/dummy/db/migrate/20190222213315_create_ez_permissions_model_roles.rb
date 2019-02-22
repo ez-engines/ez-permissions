@@ -9,6 +9,8 @@ class CreateEzPermissionsModelRoles < ActiveRecord::Migration[5.0]
       t.integer :scoped_id, index: true
       t.string :scoped_type, index: true
 
+      t.integer :role_id, index: true, null: false
+
       t.timestamps null: false
     end
   end

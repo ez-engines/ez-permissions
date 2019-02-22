@@ -10,17 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_22_150532) do
+ActiveRecord::Schema.define(version: 2019_02_22_213316) do
 
   create_table "ez_permissions_model_roles", force: :cascade do |t|
     t.integer "model_id", null: false
     t.string "model_type", null: false
     t.integer "scoped_id"
     t.string "scoped_type"
+    t.integer "role_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["model_id"], name: "index_ez_permissions_model_roles_on_model_id"
     t.index ["model_type"], name: "index_ez_permissions_model_roles_on_model_type"
+    t.index ["role_id"], name: "index_ez_permissions_model_roles_on_role_id"
     t.index ["scoped_id"], name: "index_ez_permissions_model_roles_on_scoped_id"
     t.index ["scoped_type"], name: "index_ez_permissions_model_roles_on_scoped_type"
   end

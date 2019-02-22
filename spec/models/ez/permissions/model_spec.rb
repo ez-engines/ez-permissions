@@ -12,8 +12,8 @@ RSpec.describe Ez::Permissions::Model do
       expect(user.roles).to eq([])
     end
 
-    it 'has many roles' do
-      expect(user.model_roles).to eq([])
+    it 'has many assigned roles' do
+      expect(user.assigned_roles).to eq([])
     end
 
     it 'has many permissions' do

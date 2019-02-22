@@ -75,7 +75,7 @@ end
 In your application, you should extend the main model with. Usually, it's a `User` model
 ```ruby
 class User < ActiveRecord::Base
-  extend Ez::Permissions::Model
+  include Ez::Permissions::Model
 end
 
 user = User.first
@@ -105,6 +105,7 @@ end
 ```ruby
 # Create regular role
 Permissions.create_role(name: 'user')
+Permissions.create_role(name: 'admin')
 
 # Get role object by name
 Permissions.get_role(:user)
@@ -114,6 +115,16 @@ Permissions.update_role(:user, name: 'super_user')
 
 # Delete role
 Permissions.delete_role(:user)
+
+# Assign role to the user
+user = User.first
+Permissions.assign_role(user, :admin)
+
+# Assign role to the user in scope of any resource
+project = Project.first
+Permissions.assign_role(user, :admin, scoped: project)
+
+# Refuse user role
 ```
 
 ### Permissions
@@ -143,7 +154,7 @@ Permissions.revoke_permission(:user, :create, :projects)
 - [x] Add rails generators for configuration
 - [x] Add configuration DSL
 - [x] Add Permissions API for managing relationships
-- [ ] User can has multiple roles
+- [x] User can has multiple roles
 - [x] Better errors for non-existing records
 - [ ] Add permissions helpers like `can?`, `cannot?`, `authorize` and `authorize!`
 
