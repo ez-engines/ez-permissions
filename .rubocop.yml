@@ -3,6 +3,7 @@ AllCops:
   Exclude:
     - Guardfile
     - config.ru
+    - spec/dummy/**/*
 
 Style/Documentation:
   Enabled: false

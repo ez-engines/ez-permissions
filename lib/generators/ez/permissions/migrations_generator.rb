@@ -1,14 +1,18 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/MethodLength
+# rubocop:disable all
 module Ez
   module Permissions
     class MigrationsGenerator < Rails::Generators::Base
+      def config
+        Ez::Permissions.config
+      end
+
       def create_migration
         create_file "db/migrate/#{Time.current.strftime('%Y%m%d%H%M%S')}_create_ez_permissions_roles.rb",
                     "class CreateEzPermissionsRoles < ActiveRecord::Migration[5.0]
   def change
-    create_table :ez_permissions_roles do |t|
+    create_table :#{config.roles_table_name} do |t|
       t.string :name, null: false
       t.timestamps null: false
     end
@@ -18,7 +22,7 @@ end
         create_file "db/migrate/#{(Time.current + 1).strftime('%Y%m%d%H%M%S')}_create_ez_permissions_permissions.rb",
                     "class CreateEzPermissionsPermissions < ActiveRecord::Migration[5.0]
   def change
-    create_table :ez_permissions_permissions do |t|
+    create_table :#{config.permissions_table_name} do |t|
       t.string :resource, index: true, null: false
       t.string :action, index: true, null: false
       t.timestamps null: false
@@ -26,8 +30,34 @@ end
   end
 end
 "
+        create_file "db/migrate/#{(Time.current + 2).strftime('%Y%m%d%H%M%S')}_create_ez_permissions_model_roles.rb",
+                    "class CreateEzPermissionsModelRoles < ActiveRecord::Migration[5.0]
+  def change
+    create_table :#{config.model_roles_table_name} do |t|
+      t.integer :model_id, index: true, null: false
+      t.string :model_type, index: true, null: false
+
+      t.integer :scoped_id, index: true
+      t.string :scoped_type, index: true
+
+      t.timestamps null: false
+    end
+  end
+end
+"
+
+        create_file "db/migrate/#{(Time.current + 3).strftime('%Y%m%d%H%M%S')}_create_ez_permissions_permissions_roles.rb",
+                    "class CreateEzPermissionsPermissionsRoles < ActiveRecord::Migration[5.0]
+  def change
+    create_table :#{config.permissions_roles_table_name} do |t|
+      t.integer :permission_id, index: true, null: false
+      t.integer :role_id, index: true
+    end
+  end
+  end
+  "
       end
     end
   end
 end
-# rubocop: enable Metrics/MethodLength
+# rubocop: enable all

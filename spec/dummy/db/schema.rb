@@ -12,7 +12,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_221_133_500) do
+ActiveRecord::Schema.define(version: 20_190_222_141_826) do
+  create_table 'ez_permissions_model_roles', force: :cascade do |t|
+    t.integer 'model_id', null: false
+    t.string 'model_type', null: false
+    t.integer 'scoped_id'
+    t.string 'scoped_type'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['model_id'], name: 'index_ez_permissions_model_roles_on_model_id'
+    t.index ['model_type'], name: 'index_ez_permissions_model_roles_on_model_type'
+    t.index ['scoped_id'], name: 'index_ez_permissions_model_roles_on_scoped_id'
+    t.index ['scoped_type'], name: 'index_ez_permissions_model_roles_on_scoped_type'
+  end
+
   create_table 'ez_permissions_permissions', force: :cascade do |t|
     t.string 'resource', null: false
     t.string 'action', null: false
@@ -22,8 +35,27 @@ ActiveRecord::Schema.define(version: 20_190_221_133_500) do
     t.index ['resource'], name: 'index_ez_permissions_permissions_on_resource'
   end
 
+  create_table 'ez_permissions_permissions_roles', force: :cascade do |t|
+    t.integer 'permission_id', null: false
+    t.integer 'role_id'
+    t.index ['permission_id'], name: 'index_ez_permissions_permissions_roles_on_permission_id'
+    t.index ['role_id'], name: 'index_ez_permissions_permissions_roles_on_role_id'
+  end
+
   create_table 'ez_permissions_roles', force: :cascade do |t|
     t.string 'name', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
+  create_table 'projects', force: :cascade do |t|
+    t.string 'name'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
+  create_table 'users', force: :cascade do |t|
+    t.string 'email'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
   end

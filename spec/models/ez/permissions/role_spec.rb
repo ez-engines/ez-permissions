@@ -20,7 +20,8 @@ RSpec.describe Ez::Permissions::Role do
   end
 
   context 'associations' do
-    it 'has_and_belongs_to_many :permissions' do
+    it 'has_and_belongs_to_many permissions' do
+      expect(subject.permissions).to eq([])
     end
   end
 end

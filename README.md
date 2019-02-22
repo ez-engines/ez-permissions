@@ -48,6 +48,22 @@ Ez::Permissions.configure do |config|
 end
 ```
 
+## Permission model
+
+In your application you should extend main user model with:
+```ruby
+class User < ActiveRecord::Base
+  extend Ez::Permissions::Model
+end
+
+user = User.first
+
+# User model become permission model
+user.roles #=> [relation of application models]
+user.model_roles #=> [relation of user roles]
+user.permissions #=> [relation of user available permissions through model_roles]
+```
+
 ## API
 
 **Please, do not use direct rails code like: `Ez::Permissions::Permission.create(name: 'admin')`.**
@@ -84,7 +100,7 @@ Permissions.delete_role(:user)
 - [x] Add README
 - [x] Add Role model
 - [x] Add Permissions model
-- [ ] Add PermissionsRole model
+- [x] Add PermissionsRole model
 - [x] Add rails generators for migrations
 - [x] Add rails generators for configuration
 - [x] Add configuration DSL
