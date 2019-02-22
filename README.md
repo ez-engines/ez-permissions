@@ -34,6 +34,8 @@ rails generate ez:permissions:migrations
 ```
 
 ## Configuration
+
+Configuration interface allows you change default behavior:
 ```ruby
 Ez::Permissions.configure do |config|
   # If in generated migrations you changed table names, please configure them here:
@@ -42,6 +44,38 @@ Ez::Permissions.configure do |config|
 end
 ```
 
+## API
+
+**Please, do not use direct rails code like: `Ez::Permissions::Permission.create(name: 'admin')`.**
+
+Instead you should use public api. You can extend you custom module with `API` mixin
+```ruby
+module Permissions
+  extend Ez::Permissions::API
+end
+```
+
+### Roles
+```ruby
+# Create regular role
+Permissions.create_role(name: 'user')
+
+# Get role object by name
+Permissions.get_role(:user)
+
+# Update role attributes
+Permissions.update_role(:user, name: 'super_user')
+
+# Delete role
+Permissions.delete_role(:user)
+```
+
+### Permissions
+`TODO`
+
+### Authorize access
+`TODO`
+
 ## TODO
 - [x] Add README
 - [x] Add Role model
@@ -49,8 +83,9 @@ end
 - [ ] Add PermissionsRole model
 - [x] Add rails generators for migrations
 - [x] Add rails generators for configuration
-- [ ] Add configuration DSL
-- [ ] Add permissions helpers like `can?`, `cannot?` and `authorize!`
+- [x] Add configuration DSL
+- [ ] Add Permissions API for managing relationships
+- [ ] Add permissions helpers like `can?`, `cannot?`, `authorize` and `authorize!`
 
 ## Contributing
 Contribution directions go here.
