@@ -39,6 +39,17 @@ RSpec.describe Ez::Permissions::API::Permissions do
       expect(old_permission).to eq new_permission
     end
 
+    it 'grant all actions per resource' do
+      described_class.grant_permission(:user, :all, :projects)
+
+      Ez::Permissions::DSL.resource(:projects).actions.each do |action|
+        permission = described_class.get_permission!(action, :projects)
+        permission_role = Ez::Permissions::PermissionRole.find_by!(permission: permission, role: user_role)
+
+        expect(permission_role).to be_persisted
+      end
+    end
+
     it 'raise exception if role does not exists' do
       expect do
         described_class.grant_permission(:none, :read, :projects)

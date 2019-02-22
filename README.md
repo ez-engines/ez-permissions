@@ -121,10 +121,10 @@ Permissions.delete_role(:user)
 # Create a role
 Permissions.create_role(name: :user)
 
-# Define role's possibility to have actionn with resource
+# Grant role's possibility to have action per resource
 Permissions.grant_permission(:user, :read, :projects)
 
-# or all actions per resource
+# Grant all defined actions per resource
 Permissions.grant_permission(:user, :all, :projects)
 
 # Revoke particular permission
@@ -144,6 +144,7 @@ Permissions.revoke_permission(:user, :create, :projects)
 - [x] Add configuration DSL
 - [x] Add Permissions API for managing relationships
 - [ ] User can has multiple roles
+- [ ] Better errors for non-existing records
 - [ ] Add permissions helpers like `can?`, `cannot?`, `authorize` and `authorize!`
 
 ## Contributing
