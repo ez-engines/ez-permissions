@@ -1,31 +1,11 @@
 # frozen_string_literal: true
 
+require_relative 'api/roles'
+
 module Ez
   module Permissions
     module API
-      def create_role(name:)
-        Role.create(name: name)
-      end
-
-      def get_role(name)
-        Role.find_by(name: name)
-      end
-
-      def get_role!(name)
-        Role.find_by!(name: name)
-      end
-
-      def update_role(role_name, name:)
-        role = get_role!(role_name)
-
-        role.update(name: name)
-      end
-
-      def delete_role(name)
-        role = get_role!(name)
-
-        role.delete
-      end
+      extend Ez::Permissions::API::Roles
     end
   end
 end

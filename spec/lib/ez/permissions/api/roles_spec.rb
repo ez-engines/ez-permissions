@@ -2,7 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe Ez::Permissions do
+RSpec.describe Ez::Permissions::API::Roles do
+  before { described_class.extend Ez::Permissions::API::Roles }
+
   describe '.create_role' do
     it 'creates role' do
       user_role = described_class.create_role(name: 'user')
