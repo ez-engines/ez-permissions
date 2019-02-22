@@ -142,7 +142,8 @@ Permissions.revoke_permission(:user, :create, :projects)
 - [x] Add rails generators for migrations
 - [x] Add rails generators for configuration
 - [x] Add configuration DSL
-- [ ] Add Permissions API for managing relationships
+- [x] Add Permissions API for managing relationships
+- [ ] User can has multiple roles
 - [ ] Add permissions helpers like `can?`, `cannot?`, `authorize` and `authorize!`
 
 ## Contributing
