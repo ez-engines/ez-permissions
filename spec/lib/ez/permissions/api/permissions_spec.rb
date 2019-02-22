@@ -18,8 +18,11 @@ RSpec.describe Ez::Permissions::API::Permissions do
 
     it 'raise exception if permission does not exists' do
       expect do
-        described_class.get_permission!(:not, :exist)
-      end.to raise_error(ActiveRecord::RecordNotFound, "Couldn't find Ez::Permissions::Permission")
+        described_class.get_permission!(:foo, :bar)
+      end.to raise_error(
+        Ez::Permissions::API::Permissions::PermissionNotFound,
+        'Permission [foo -> bar] not found'
+      )
     end
   end
 
@@ -52,14 +55,20 @@ RSpec.describe Ez::Permissions::API::Permissions do
 
     it 'raise exception if role does not exists' do
       expect do
-        described_class.grant_permission(:none, :read, :projects)
-      end.to raise_error(ActiveRecord::RecordNotFound, "Couldn't find Ez::Permissions::Role")
+        described_class.grant_permission(:dummy, :read, :projects)
+      end.to raise_error(
+        Ez::Permissions::API::Roles::RoleNotFound,
+        'Role dummy not found'
+      )
     end
 
     it 'raise exception if permission does not exists' do
       expect do
-        described_class.grant_permission(:user, :existing, :resource)
-      end.to raise_error(ActiveRecord::RecordNotFound, "Couldn't find Ez::Permissions::Permission")
+        described_class.grant_permission(:user, :foo, :bar)
+      end.to raise_error(
+        Ez::Permissions::API::Permissions::PermissionNotFound,
+        'Permission [foo -> bar] not found'
+      )
     end
   end
 
@@ -78,14 +87,20 @@ RSpec.describe Ez::Permissions::API::Permissions do
 
     it 'raise exception if role does not exists' do
       expect  do
-        described_class.revoke_permission(:none, :read, :projects)
-      end.to raise_error(ActiveRecord::RecordNotFound, "Couldn't find Ez::Permissions::Role")
+        described_class.revoke_permission(:dummy, :read, :projects)
+      end.to raise_error(
+        Ez::Permissions::API::Roles::RoleNotFound,
+        'Role dummy not found'
+      )
     end
 
     it 'raise exception if permission does not exists' do
       expect  do
-        described_class.revoke_permission(:user, :none, :reource)
-      end.to raise_error(ActiveRecord::RecordNotFound, "Couldn't find Ez::Permissions::Permission")
+        described_class.revoke_permission(:user, :foo, :bar)
+      end.to raise_error(
+        Ez::Permissions::API::Permissions::PermissionNotFound,
+        'Permission [foo -> bar] not found'
+      )
     end
   end
 end

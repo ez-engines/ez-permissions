@@ -4,6 +4,8 @@ module Ez
   module Permissions
     module API
       module Roles
+        RoleNotFound = Class.new(StandardError)
+
         def create_role(name:)
           Role.create(name: name)
         end
@@ -14,6 +16,8 @@ module Ez
 
         def get_role!(name)
           Role.find_by!(name: name)
+        rescue ActiveRecord::RecordNotFound
+          raise RoleNotFound, "Role #{name} not found"
         end
 
         def update_role(role_name, name:)

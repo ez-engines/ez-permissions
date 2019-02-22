@@ -144,7 +144,7 @@ Permissions.revoke_permission(:user, :create, :projects)
 - [x] Add configuration DSL
 - [x] Add Permissions API for managing relationships
 - [ ] User can has multiple roles
-- [ ] Better errors for non-existing records
+- [x] Better errors for non-existing records
 - [ ] Add permissions helpers like `can?`, `cannot?`, `authorize` and `authorize!`
 
 ## Contributing

@@ -4,8 +4,12 @@ module Ez
   module Permissions
     module API
       module Permissions
+        PermissionNotFound = Class.new(StandardError)
+
         def get_permission!(action, resource)
           Ez::Permissions::Permission.find_by!(resource: resource, action: action)
+        rescue ActiveRecord::RecordNotFound
+          raise PermissionNotFound, "Permission [#{action} -> #{resource}] not found"
         end
 
         def grant_permission(role_name, action, resource)

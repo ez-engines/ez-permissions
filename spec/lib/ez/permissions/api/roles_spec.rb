@@ -50,7 +50,9 @@ RSpec.describe Ez::Permissions::API::Roles do
     end
 
     it 'raise exception for non existing role' do
-      expect { described_class.get_role!(:none) }.to raise_error(ActiveRecord::RecordNotFound)
+      expect do
+        described_class.get_role!(:none)
+      end.to raise_error(Ez::Permissions::API::Roles::RoleNotFound, 'Role none not found')
     end
   end
 
@@ -65,7 +67,9 @@ RSpec.describe Ez::Permissions::API::Roles do
     end
 
     it 'raise exception for non existing role' do
-      expect { described_class.update_role(:none, name: 'super_user') }.to raise_error(ActiveRecord::RecordNotFound)
+      expect do
+        described_class.update_role(:none, name: 'super_user')
+      end.to raise_error(Ez::Permissions::API::Roles::RoleNotFound, 'Role none not found')
     end
   end
 
@@ -78,7 +82,9 @@ RSpec.describe Ez::Permissions::API::Roles do
     end
 
     it 'raise exception for non existing role' do
-      expect { described_class.delete_role(:none) }.to raise_error(ActiveRecord::RecordNotFound)
+      expect do
+        described_class.delete_role(:none)
+      end.to raise_error(Ez::Permissions::API::Roles::RoleNotFound, 'Role none not found')
     end
   end
 end
