@@ -21,3 +21,8 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
 end
+
+Ez::Permissions::DSL.define do |setup|
+  setup.add :users,    actions: %i[create read], model: User
+  setup.add :projects, actions: %i[crud custom], model: Project
+end

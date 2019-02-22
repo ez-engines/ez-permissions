@@ -27,17 +27,25 @@ module Ez
 
       def add(name, options = {})
         if self.class.resource(name)
-          return STDOUT
-                 .puts("[WARN] Ez::Permissions resource [#{name}] has been already defined!")
+          return message("[WARN] Ez::Permissions resource [#{name}] has been already defined!")
         end
 
         resource = Ez::Permissions::Resource.new(name, options)
+
+        message(
+          "[SUCCESS] Ez::Permissions resource [#{name}] has been successfully registred with actions: \
+[#{resource.actions.join(', ')}]"
+        )
 
         @resources << resource
         seed_to_db resource
       end
 
       private
+
+      def message(txt)
+        STDOUT.puts(txt)
+      end
 
       def seed_to_db(resource)
         return unless ActiveRecord::Base.connection.data_source_exists?(Ez::Permissions.config.permissions_table_name)
