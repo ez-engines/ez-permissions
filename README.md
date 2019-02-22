@@ -1,8 +1,12 @@
 # Ez::Permissions
-Short description and motivation.
 
-## Usage
-How to use my plugin.
+[![Build Status](https://travis-ci.org/ez-engines/ez-permissions.svg?branch=master)](https://travis-ci.org/ez-engines/ez-permissions)
+
+**Ez Permissions** (read as "easy permissions") - one of the [ez-engines](https://github.com/ez-engines) collection that helps easily add permissions interface to your [Rails](http://rubyonrails.org/) application.
+
+- Flexible tool with simple DSL
+- Convetion over configuration principles.
+- Depends on [ez-core](https://github.com/ez-engines/ez-core)
 
 ## Installation
 Add this line to your application's Gemfile:
