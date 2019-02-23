@@ -146,6 +146,7 @@ Permissions.revoke_permission(:user, :create, :projects)
 - [x] User can has multiple roles
 - [x] Better errors for non-existing records
 - [ ] Add permissions helpers like `can?`, `cannot?`, `authorize` and `authorize!`
+- [ ] Add helper methods for seed grant permissions
 
 ## Contributing
 Contribution directions go here.

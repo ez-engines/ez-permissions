@@ -8,16 +8,36 @@ RSpec.describe Ez::Permissions::Model do
   let(:user) { User.create(email: 'user@dummy.test') }
 
   describe 'relationships' do
-    it 'has many roles' do
-      expect(user.roles).to eq([])
+    let!(:admin_role)      { Ez::Permissions::API.create_role(name: :admin) }
+    let!(:supervisor_role) { Ez::Permissions::API.create_role(name: :supervisor) }
+    let!(:user_role)       { Ez::Permissions::API.create_role(name: :user) }
+
+    before do
+      Ez::Permissions::API.assign_role(user, :admin)
+      Ez::Permissions::API.assign_role(user, :supervisor)
+
+      Ez::Permissions::API.grant_permission(:admin,      :create, :users)
+      Ez::Permissions::API.grant_permission(:admin,      :read,   :users)
+      Ez::Permissions::API.grant_permission(:supervisor, :create, :projects)
+      Ez::Permissions::API.grant_permission(:user,       :read,   :projects)
     end
 
     it 'has many assigned roles' do
-      expect(user.assigned_roles).to eq([])
+      expect(user.assigned_roles.size).to eq 2
+      expect(user.assigned_roles.pluck(:role_id)).to eq([admin_role.id, supervisor_role.id])
+      expect(user.assigned_roles.map(&:class).uniq).to eq [Ez::Permissions::ModelRole]
+    end
+
+    it 'has many roles' do
+      expect(user.roles.size).to eq 2
+      expect(user.roles.pluck(:id)).to eq([admin_role.id, supervisor_role.id])
+      expect(user.roles.map(&:class).uniq).to eq [Ez::Permissions::Role]
     end
 
     it 'has many permissions' do
-      expect(user.permissions).to eq([])
+      expect(user.permissions.size).to eq 3
+      expect(user.permissions.map(&:resource)).to eq %w[users users projects]
+      expect(user.permissions.map(&:action)).to eq %w[create read create]
     end
   end
 end
