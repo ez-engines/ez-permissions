@@ -4,25 +4,16 @@
 
 **Ez Permissions** (read as "easy permissions") - one of the [ez-engines](https://github.com/ez-engines) collection that helps easily add permissions interface to your [Rails](http://rubyonrails.org/) application.
 
-- Flexible tool with simple DSL
+- Most advanced RBAC model:
+- Flexible tool with simple DSL and confguration
+- All in one solution
 - Convetion over configuration principles.
 - Depends on [ez-core](https://github.com/ez-engines/ez-core)
 
 ## Installation
 Add this line to your application's Gemfile:
-
 ```ruby
 gem 'ez-permissions'
-```
-
-And then execute:
-```bash
-$ bundle
-```
-
-Or install it yourself as:
-```bash
-$ gem install ez-permissions
 ```
 
 ## Generators
@@ -39,7 +30,7 @@ rails generate ez:permissions:migrations
 
 ## Configuration
 
-Configuration interface allows you change default behavior:
+Configuration interface allows you to change default behavior
 ```ruby
 Ez::Permissions.configure do |config|
   # If in generated migrations you changed table names, please configure them here:
@@ -52,19 +43,17 @@ end
 
 ## DSL
 
-Engine provides for you simple DSL for difinition of permission relationships:
+Simple DSL for difinition of permission relationships
 ```ruby
 Ez::Permissions::DSL.define do |setup|
-  # You need add all resources of your application, related data models and possible actions
-  setup.add :roles,       model: Ez::Permissions::Role, actions: %i[create read]
+  # You need add all resources of your application and possible actions
+  setup.add :roles, actions: %i[create read]
 
   # Use `crud` for adding default `create`, `read`, `update` and `delete` actions
   # And any your custom action
-  setup.add :permissions, model: Ez::Permissions::Permission, actions: %i[crud custom]
+  setup.add :permissions, actions: %i[crud my_custom_action]
 
-  # Model and actions options are not required
-  # - model will be nil
-  # - actions will be only crud
+  # Actions option are not required. In such case you add all crud actions by default
   setup.add :users
   setup.add :projects
 end
@@ -72,7 +61,7 @@ end
 
 ## Permission model
 
-In your application, you should extend the main model with. Usually, it's a `User` model
+In your application, you usually have `User` model.
 ```ruby
 class User < ActiveRecord::Base
   include Ez::Permissions::Model
@@ -81,9 +70,9 @@ end
 user = User.first
 
 # User model become permission model
-user.roles #=> [relation of application models]
-user.model_roles #=> [relation of user roles]
-user.permissions #=> [relation of user available permissions through model_roles]
+user.roles #=> [application level models]
+user.assigned_roles #=> [user owned roles]
+user.permissions #=> [user available permissions through assigned_roles]
 ```
 
 ## API
@@ -92,10 +81,10 @@ user.permissions #=> [relation of user available permissions through model_roles
 
 Instead you should use public api. You can extend you custom module with `API` mixin
 ```ruby
-# Use engine facade
+# Use engine facade methods
 Ez::Permissions::API
 
-# or extend your own module and keep anti-corruption layer
+# or extend your own module and keep your code clean
 module Permissions
   extend Ez::Permissions::API
 end
