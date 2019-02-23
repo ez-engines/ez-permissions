@@ -4,8 +4,6 @@ module Ez
   module Permissions
     module API
       module Models
-        RoleNotFound = Class.new(StandardError)
-
         def assign_role(model, role_name, scoped: nil)
           role = Ez::Permissions::API.get_role!(role_name)
 
@@ -16,7 +14,15 @@ module Ez
           )
         end
 
-        # TODO: refuse role
+        def reject_role(model, role_name, scoped: nil)
+          role = Ez::Permissions::API.get_role!(role_name)
+
+          Ez::Permissions::ModelRole.find_by(
+            role:   role,
+            model:  model,
+            scoped: scoped
+          )&.delete
+        end
       end
     end
   end

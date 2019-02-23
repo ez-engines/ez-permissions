@@ -9,7 +9,7 @@ RSpec.describe Ez::Permissions::API::Models do
   let!(:admin_role) { Ez::Permissions::API.create_role(name: :admin) }
   let(:project) { Project.create!(name: 'Test') }
 
-  describe 'add_role' do
+  describe 'assign_role' do
     it 'assign role to the user' do
       described_class.assign_role(user, :admin)
 
@@ -46,6 +46,27 @@ RSpec.describe Ez::Permissions::API::Models do
         expect(user.assigned_roles.pluck(:scoped_type)).to eq [nil, 'Project', 'Project']
         expect(user.assigned_roles.pluck(:scoped_id)).to eq [nil, project.id, project.id]
       end
+    end
+  end
+
+  describe 'reject_role' do
+    it 'rejects role from the user' do
+      aggregate_failures do
+        described_class.assign_role(user, :admin)
+        expect(user.assigned_roles.count).to eq 1
+
+        described_class.reject_role(user, :admin)
+        expect(user.assigned_roles.count).to eq 0
+      end
+    end
+
+    it 'raise exception when rejecting not existing role' do
+      expect do
+        described_class.reject_role(user, :dummy)
+      end.to raise_error(
+        Ez::Permissions::API::Roles::RoleNotFound,
+        'Role dummy not found'
+      )
     end
   end
 end
