@@ -93,8 +93,8 @@ end
 ### Roles
 ```ruby
 # Create regular role
-Permissions.create_role(name: 'user')
-Permissions.create_role(name: 'admin')
+Permissions.create_role(:user)
+Permissions.create_role(:admin)
 
 # Get role object by name
 Permissions.get_role(:user)
@@ -120,7 +120,7 @@ Permissions.reject_role(user, :admin)
 ### Permissions
 ```ruby
 # Create a role
-Permissions.create_role(name: :user)
+Permissions.create_role(:user)
 
 # Grant role's possibility to have action per resource
 Permissions.grant_permission(:user, :read, :projects)

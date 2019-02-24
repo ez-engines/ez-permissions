@@ -9,9 +9,9 @@ RSpec.describe Ez::Permissions::Model do
   let(:project) { Project.create(name: 'Test') }
 
   describe 'relationships' do
-    let!(:admin_role)      { Ez::Permissions::API.create_role(name: :admin) }
-    let!(:supervisor_role) { Ez::Permissions::API.create_role(name: :supervisor) }
-    let!(:user_role)       { Ez::Permissions::API.create_role(name: :user) }
+    let!(:admin_role)      { Ez::Permissions::API.create_role(:admin) }
+    let!(:supervisor_role) { Ez::Permissions::API.create_role(:supervisor) }
+    let!(:user_role)       { Ez::Permissions::API.create_role(:user) }
 
     before do
       Ez::Permissions::API.assign_role(user, :admin)

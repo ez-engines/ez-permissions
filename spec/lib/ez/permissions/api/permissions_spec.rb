@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Ez::Permissions::API::Permissions do
   before { described_class.extend described_class }
 
-  let!(:user_role) { Ez::Permissions::API.create_role(name: :user) }
+  let!(:user_role) { Ez::Permissions::API.create_role(:user) }
   let(:read_project_permission) { described_class.get_permission!(:read, :projects) }
 
   describe '.get_permission!' do

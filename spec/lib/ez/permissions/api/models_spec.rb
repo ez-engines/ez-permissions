@@ -6,7 +6,7 @@ RSpec.describe Ez::Permissions::API::Models do
   before { described_class.extend described_class }
 
   let(:user) { User.create!(email: 'user@dummy.test') }
-  let!(:admin_role) { Ez::Permissions::API.create_role(name: :admin) }
+  let!(:admin_role) { Ez::Permissions::API.create_role(:admin) }
   let(:project) { Project.create!(name: 'Test') }
 
   describe 'assign_role' do
@@ -20,7 +20,7 @@ RSpec.describe Ez::Permissions::API::Models do
     end
 
     it 'assign multiple unique roles to the user' do
-      manager_role = Ez::Permissions::API.create_role(name: :manager)
+      manager_role = Ez::Permissions::API.create_role(:manager)
 
       described_class.assign_role(user, :admin)
       described_class.assign_role(user, :manager)
@@ -33,8 +33,8 @@ RSpec.describe Ez::Permissions::API::Models do
     end
 
     it 'assign scoped roles to the user' do
-      manager_role = Ez::Permissions::API.create_role(name: :manager)
-      worker_role = Ez::Permissions::API.create_role(name: :worker)
+      manager_role = Ez::Permissions::API.create_role(:manager)
+      worker_role = Ez::Permissions::API.create_role(:worker)
 
       described_class.assign_role(user, :admin)
       described_class.assign_role(user, :manager, scoped: project)

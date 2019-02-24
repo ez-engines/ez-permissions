@@ -7,8 +7,8 @@ RSpec.describe Ez::Permissions::API::Authorize do
 
   let(:user) { User.create!(email: 'user@dummy.test') }
 
-  let!(:admin_role) { Ez::Permissions::API.create_role(name: :admin) }
-  let!(:user_role) { Ez::Permissions::API.create_role(name: :user) }
+  let!(:admin_role) { Ez::Permissions::API.create_role(:admin) }
+  let!(:user_role) { Ez::Permissions::API.create_role(:user) }
 
   let(:project) { Project.create!(name: 'Test') }
 

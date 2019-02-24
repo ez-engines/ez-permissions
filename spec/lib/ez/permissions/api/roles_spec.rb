@@ -7,21 +7,21 @@ RSpec.describe Ez::Permissions::API::Roles do
 
   describe '.create_role' do
     it 'creates role' do
-      user_role = described_class.create_role(name: 'user')
+      user_role = described_class.create_role('user')
 
       expect(user_role.name).to eq 'user'
     end
 
     it 'invalid with empty name' do
-      user_role = described_class.create_role(name: '')
+      user_role = described_class.create_role('')
 
       expect(user_role).to be_invalid
       expect(user_role.errors.messages).to eq(name: ["can't be blank"])
     end
 
     it 'invalid with taken name' do
-      _user_role = described_class.create_role(name: 'user')
-      new_role = described_class.create_role(name: 'user')
+      _user_role = described_class.create_role(:user)
+      new_role = described_class.create_role(:user)
 
       expect(new_role).to be_invalid
       expect(new_role.errors.messages).to eq(name: ['has already been taken'])
@@ -30,7 +30,7 @@ RSpec.describe Ez::Permissions::API::Roles do
 
   describe '.get_role' do
     it 'finds role by name' do
-      user_role = described_class.create_role(name: 'user')
+      user_role = described_class.create_role(:user)
       role = described_class.get_role(:user)
 
       expect(role.id).to eq user_role.id
@@ -43,7 +43,7 @@ RSpec.describe Ez::Permissions::API::Roles do
 
   describe '.get_role!' do
     it 'finds role by name' do
-      user_role = described_class.create_role(name: 'user')
+      user_role = described_class.create_role(:user)
       role = described_class.get_role!(:user)
 
       expect(role.id).to eq user_role.id
@@ -58,7 +58,7 @@ RSpec.describe Ez::Permissions::API::Roles do
 
   describe '.update_role' do
     it 'updates role name' do
-      user_role = described_class.create_role(name: 'user')
+      user_role = described_class.create_role(:user)
       described_class.update_role(:user, name: 'super_user')
 
       user_role.reload
@@ -75,7 +75,7 @@ RSpec.describe Ez::Permissions::API::Roles do
 
   describe '.delete_role' do
     it 'removes role' do
-      user_role = described_class.create_role(name: 'user')
+      user_role = described_class.create_role(:user)
       described_class.delete_role(:user)
 
       expect { user_role.reload }.to raise_error(ActiveRecord::RecordNotFound)
