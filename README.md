@@ -1,6 +1,7 @@
 # Ez::Permissions
 
 [![Gem Version](https://badge.fury.io/rb/ez-permissions.svg)](https://badge.fury.io/rb/ez-permissions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/ez-engines/ez-permissions.svg?branch=master)](https://travis-ci.org/ez-engines/ez-permissions)
 
 **Ez Permissions** (read as "easy permissions") - one of the [ez-engines](https://github.com/ez-engines) collection that helps easily add permissions interface to your [Rails](http://rubyonrails.org/) application.
