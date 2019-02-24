@@ -11,9 +11,15 @@ module Ez
         end
 
         def authorize(model, *actions, resource, scoped: nil, raise_exception: false)
+          return handle_no_permission_model_callback.call(self) if handle_no_permission_model_callback && !model
+
           return yield if permissions(model, *actions, resource, scoped: scoped).any?
 
-          raise NotAuthorized, not_authorized_msg(model, actions, resource, scoped) if raise_exception
+          if handle_not_authorized_callback
+            handle_not_authorized_callback.call(self)
+          else
+            raise NotAuthorized, not_authorized_msg(model, actions, resource, scoped) if raise_exception
+          end
 
           false
         end
@@ -37,6 +43,14 @@ module Ez
           msg = "#{msg} for #{scoped.class}##{scoped.id}" if scoped
 
           msg
+        end
+
+        def handle_no_permission_model_callback
+          Ez::Permissions.config.handle_no_permission_model
+        end
+
+        def handle_not_authorized_callback
+          Ez::Permissions.config.handle_not_authorized
         end
       end
     end

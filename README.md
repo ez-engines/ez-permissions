@@ -23,12 +23,7 @@ Generate configuration file:
 rails generate ez:permissions:install
 ```
 
-Generate ActiveRecord migrations:
-```bash
-rails generate ez:permissions:migrations
-```
-
-## Configuration
+### Configuration
 
 Configuration interface allows you to change default behavior
 ```ruby
@@ -38,7 +33,25 @@ Ez::Permissions.configure do |config|
   config.roles_table_name = 'my_roles'
   config.models_roles_table_name = 'my_model_roles'
   config.permissions_roles_table_name = 'my_permissions_roles'
+
+  # Define your custom callbacks
+  config.handle_no_permission_model = lambda { |context|
+    raise 'User not exist'
+  }
+
+  config.handle_not_authorized = lambda { |context|
+    raise 'Not authorized'
+  }
 end
+
+```
+### ActiveRecord migrations:
+
+**If you need change table names, please change configuration first**
+
+And run
+```bash
+rails generate ez:permissions:migrations
 ```
 
 ## DSL
@@ -70,8 +83,8 @@ end
 user = User.first
 
 # User model become permission model
-user.roles #=> [application level models]
-user.assigned_roles #=> [user owned roles]
+user.roles #=> [application level roles]
+user.assigned_roles #=> [user owned roles, gloabal and scoped]
 user.permissions #=> [user available permissions through assigned_roles]
 ```
 
@@ -86,7 +99,10 @@ Ez::Permissions::API
 
 # or extend your own module and keep your code clean
 module Permissions
-  extend Ez::Permissions::API
+  extend Ez::Permissions::API::Roles
+  extend Ez::Permissions::API::Permissions
+  extend Ez::Permissions::API::Models
+  extend Ez::Permissions::API::Authorize
 end
 ```
 

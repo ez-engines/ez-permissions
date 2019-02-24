@@ -19,15 +19,6 @@ RSpec.describe Ez::Permissions::API::Authorize do
     Ez::Permissions::API.grant_permission(:user, :read, :users)
   end
 
-  # Scoped: check only scoped roles permissions
-  # Not scoped: check only not scoped roles permissions
-
-  # Cases
-  #  - User has 0 roles
-  #  - User has admin scoped role, trying access his scoped
-  #  - User has admin scoped role, trying access other scoped
-  #  - User has admin global role, trying access scoped
-
   describe 'authorize!' do
     context 'has no roles' do
       before do
@@ -133,26 +124,60 @@ RSpec.describe Ez::Permissions::API::Authorize do
   end
 
   describe 'authorize' do
-    it 'execute block if admin' do
-      Ez::Permissions::API.assign_role(user, :admin)
+    context 'withour callbacks' do
+      it 'execute block if admin' do
+        Ez::Permissions::API.assign_role(user, :admin)
 
-      expect(dummy_code).to receive(:call)
+        expect(dummy_code).to receive(:call)
 
-      expect(described_class.authorize(user, :create, :users) { dummy_code.call }).to eq true
+        expect(described_class.authorize(user, :create, :users) { dummy_code.call }).to eq true
+      end
+
+      it 'false if user' do
+        Ez::Permissions::API.assign_role(user, :user)
+
+        expect(dummy_code).not_to receive(:call)
+
+        expect(described_class.authorize(user, :create, :users) { dummy_code.call }).to eq false
+      end
+
+      it 'false without permissions' do
+        expect(dummy_code).not_to receive(:call)
+
+        expect(described_class.authorize(user, :create, :users) { dummy_code.call }).to eq false
+      end
     end
 
-    it 'false if user' do
-      Ez::Permissions::API.assign_role(user, :user)
+    context 'with callbacks' do
+      let(:no_model_callback)       { double :no_model_callback, call: true }
+      let(:not_authorized_callback) { double :no_user_callback, call: true }
 
-      expect(dummy_code).not_to receive(:call)
+      around do |example|
+        Ez::Permissions.config.handle_no_permission_model = lambda { |_ctx|
+          no_model_callback.call
+        }
 
-      expect(described_class.authorize(user, :create, :users) { dummy_code.call }).to eq false
-    end
+        Ez::Permissions.config.handle_not_authorized = lambda { |_ctx|
+          not_authorized_callback.call
+        }
 
-    it 'false without permissions' do
-      expect(dummy_code).not_to receive(:call)
+        example.run
 
-      expect(described_class.authorize(user, :create, :users) { dummy_code.call }).to eq false
+        Ez::Permissions.config.handle_no_permission_model = nil
+        Ez::Permissions.config.handle_not_authorized = nil
+      end
+
+      it 'execute no_model_callback' do
+        expect(no_model_callback).to receive(:call)
+
+        described_class.authorize(nil, :create, :users) { 'code' }
+      end
+
+      it 'execute not_authorized_callback' do
+        expect(not_authorized_callback).to receive(:call)
+
+        described_class.authorize(user, :create, :users) { 'code' }
+      end
     end
   end
 end
