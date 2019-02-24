@@ -48,7 +48,7 @@ module Ez
       end
 
       def seed_to_db(resource)
-        try_db_connection
+        return unless try_db_connection
 
         return unless ActiveRecord::Base.connection.data_source_exists?(Ez::Permissions.config.permissions_table_name)
 
@@ -66,6 +66,7 @@ module Ez
         ActiveRecord::Base.connection
       rescue ActiveRecord::NoDatabaseError
         STDOUT.puts 'Database does not exist'
+        false
       end
     end
   end
