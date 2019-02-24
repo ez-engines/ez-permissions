@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.version     = Ez::Permissions::VERSION
   s.authors     = ['Volodya Sveredyuk']
   s.email       = ['sveredyuk@gmail.com']
-  s.homepage    = 'https://github.com/ez-permissions'
+  s.homepage    = 'https://github.com/ez-engines/ez-permissions'
   s.summary     = 'Easy permissions engine for Rails app.'
   s.description = 'Easy permissions engine for Rails app.'
   s.license     = 'MIT'
