@@ -15,11 +15,9 @@ module Ez
 
           return yield if permissions(model, *actions, resource, scoped: scoped).any?
 
-          if handle_not_authorized_callback
-            handle_not_authorized_callback.call(self)
-          else
-            raise NotAuthorized, not_authorized_msg(model, actions, resource, scoped) if raise_exception
-          end
+          return handle_not_authorized_callback.call(self) if handle_not_authorized_callback
+
+          raise NotAuthorized, not_authorized_msg(model, actions, resource, scoped) if raise_exception
 
           false
         end
