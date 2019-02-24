@@ -7,8 +7,6 @@ module Ez
 
       has_and_belongs_to_many :permissions
 
-      # has_and_belongs_to_many :users, class_name: '::User'
-
       validates :name, presence: true
       validates :name, uniqueness: true
     end

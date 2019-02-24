@@ -113,7 +113,8 @@ Permissions.assign_role(user, :admin)
 project = Project.first
 Permissions.assign_role(user, :admin, scoped: project)
 
-# Refuse user role
+# Reject user role in global scope, but project admin role will stay
+Permissions.reject_role(user, :admin)
 ```
 
 ### Permissions
@@ -132,7 +133,44 @@ Permissions.revoke_permission(:user, :create, :projects)
 ```
 
 ### Authorize access
-`TODO`
+```ruby
+user = User.first
+project = Project.first
+
+Permissions.create_role(:admin)
+Permissions.grant_permission(:admin, :all, :users)
+Permissions.assign_role(user, :admin, scoped: project)
+
+Permissions.authorize!(user, :create, :users, scoped: project) do
+  # code here would be executed if user has permissions
+  # for user creation in particular project
+end
+
+# otherwise catch exception
+Ez::Permissions::API::Authrozation::NotAuthorized
+
+# if you don't want raise exception, just use
+Permissions.authorize(user, :create, :users) { puts 'Yeahh!' } #=> false
+# Because user has scoped role in the project and don't has global role.
+```
+
+### Kepp it excplicit!
+You can wonder, why we just not add authorization methods to user instance, like:
+```ruby
+user.can?(:something)
+```
+Because ez-permissions engine don't want pollute your application and keep implementation isolated in external modules.
+Of course, you can use them as mixins, but it's up to you.
+
+## Understanding scoped roles
+- System have many roles
+- User has many assigned roles
+- User can has role in scope of some resource (Project, Company, Business, etc.)
+- User can has role in global scope (without scope)
+- If user want access data in scope of resource - user must has assigned role scoped for this resource
+- If user want access data in global scope - user must has assigned role wihtout any scoped resorce (global role)
+- User with global role - can't access scoped resources.
+- User with scoped role - can't access global resources.
 
 ## TODO
 - [x] Add README
@@ -145,7 +183,8 @@ Permissions.revoke_permission(:user, :create, :projects)
 - [x] Add Permissions API for managing relationships
 - [x] User can has multiple roles
 - [x] Better errors for non-existing records
-- [ ] Add permissions helpers like `can?`, `cannot?`, `authorize` and `authorize!`
+- [x] Add permissions helpers `authorize` and `authorize!`
+- [x] Move all erros under `Ez::Permissions::API` namespace and add `Error` suffix
 - [ ] Add helper methods for seed grant permissions
 
 ## Contributing
