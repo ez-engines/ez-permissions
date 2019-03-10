@@ -133,6 +133,13 @@ Permissions.assign_role(user, :admin, scoped: project)
 
 # Reject user role in global scope, but project admin role will stay
 Permissions.reject_role(user, :admin)
+
+# Check if user includes global role
+Permissions.includes_role?(user, :admin)
+
+# Check if user includes scoped role
+project = Project.first
+Permissions.includes_role?(user, :manager, scoped: project)
 ```
 
 ### Permissions

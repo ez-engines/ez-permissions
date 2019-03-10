@@ -17,11 +17,23 @@ module Ez
         def reject_role(model, role_name, scoped: nil)
           role = Ez::Permissions::API.get_role!(role_name)
 
+          model_role(role, model, scoped)&.delete
+        end
+
+        def includes_role?(model, role_name, scoped: nil)
+          role = Ez::Permissions::API.get_role!(role_name)
+
+          model_role(role, model, scoped) ? true : false
+        end
+
+        private
+
+        def model_role(role, model, scoped)
           Ez::Permissions::ModelRole.find_by(
             role:   role,
             model:  model,
             scoped: scoped
-          )&.delete
+          )
         end
       end
     end

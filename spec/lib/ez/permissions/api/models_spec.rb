@@ -9,6 +9,46 @@ RSpec.describe Ez::Permissions::API::Models do
   let!(:admin_role) { Ez::Permissions::API.create_role(:admin) }
   let(:project) { Project.create!(name: 'Test') }
 
+  describe 'includes_role?' do
+    before { Ez::Permissions::API.create_role(:manager) }
+
+    context 'user includes particular global role' do
+      it 'returns true' do
+        described_class.assign_role(user, :admin)
+        described_class.assign_role(user, :manager)
+
+        expect(described_class.includes_role?(user, :manager)).to eq true
+      end
+    end
+
+    context 'user includes particular scoped role' do
+      it 'returns true' do
+        described_class.assign_role(user, :admin)
+        described_class.assign_role(user, :manager, scoped: project)
+
+        expect(described_class.includes_role?(user, :manager, scoped: project)).to eq true
+        expect(described_class.includes_role?(user, :manager)).to eq false
+      end
+    end
+
+    context 'user does not include particular global role' do
+      it 'returns false' do
+        described_class.assign_role(user, :admin)
+
+        expect(described_class.includes_role?(user, :manager)).to eq false
+      end
+    end
+
+    context 'user does not include particular scoped role' do
+      it 'returns false' do
+        described_class.assign_role(user, :manager)
+
+        expect(described_class.includes_role?(user, :manager, scoped: project)).to eq false
+        expect(described_class.includes_role?(user, :manager)).to eq true
+      end
+    end
+  end
+
   describe 'assign_role' do
     it 'assign role to the user' do
       described_class.assign_role(user, :admin)
