@@ -19,7 +19,7 @@ RSpec.describe Ez::Permissions::API::Authorize do
     Ez::Permissions::API.grant_permission(:user, :read, :users)
   end
 
-  describe 'authorize!' do
+  describe '.authorize!' do
     context 'has no roles' do
       before do
         expect(user.assigned_roles).to eq([])
@@ -123,7 +123,7 @@ RSpec.describe Ez::Permissions::API::Authorize do
     end
   end
 
-  describe 'authorize' do
+  describe '.authorize' do
     context 'withour callbacks' do
       it 'execute block if admin' do
         Ez::Permissions::API.assign_role(user, :admin)
@@ -177,6 +177,66 @@ RSpec.describe Ez::Permissions::API::Authorize do
         expect(not_authorized_callback).to receive(:call)
 
         described_class.authorize(user, :create, :users) { 'code' }
+      end
+    end
+  end
+
+  describe '.can?' do
+    context 'has no roles' do
+      before do
+        expect(user.assigned_roles).to eq([])
+        expect(dummy_code).not_to receive(:call)
+      end
+
+      it 'false try access to resource' do
+        expect(described_class.can?(user, :create, :users)).to eq false
+      end
+
+      it 'false try access to scoped resource' do
+        expect(described_class.can?(user, :create, :users)).to eq false
+      end
+    end
+
+    context 'has one global role' do
+      it 'true if admin' do
+        Ez::Permissions::API.assign_role(user, :admin)
+
+        expect(described_class.can?(user, :create, :read, :update, :delete, :users)).to eq true
+      end
+
+      it 'true if user' do
+        Ez::Permissions::API.assign_role(user, :user)
+
+        expect(described_class.can?(user, :create, :read, :update, :delete, :users)).to eq true
+      end
+
+      it 'true if admin & user' do
+        Ez::Permissions::API.assign_role(user, :admin)
+        Ez::Permissions::API.assign_role(user, :user)
+
+        expect(described_class.can?(user, :create, :read, :update, :delete, :users)).to eq true
+      end
+
+      it 'false if user' do
+        Ez::Permissions::API.assign_role(user, :user)
+
+        expect(described_class.can?(user, :create, :users)).to eq false
+      end
+
+      it 'false without permissions' do
+        expect(described_class.can?(user, :create, :users)).to eq false
+      end
+
+      it 'false with scoped role and global resource' do
+        Ez::Permissions::API.assign_role(user, :admin, scoped: project)
+
+        expect(described_class.can?(user, :create, :users)).to eq false
+      end
+
+      it 'false with scoped resource and global role' do
+        Ez::Permissions::API.assign_role(user, :admin)
+
+        expect(described_class.can?(user, :create, :users, scoped: project)).to eq false
       end
     end
   end

@@ -177,6 +177,45 @@ Ez::Permissions::API::Authrozation::NotAuthorized
 # if you don't want raise exception, just use
 Permissions.authorize(user, :create, :users) { puts 'Yeahh!' } #=> false
 # Because user has scoped role in the project and don't has global role.
+
+# and for simple cases you can always ask if user can something
+Permissions.can?(user, :create, :users) => # true
+Permissions.can?(user, :create, :users, scoped: project) => # false
+```
+
+### Testing
+EzPermissions ships with bunch of RSpec helper methods that helps mock permission.
+For large test suite (more than 5000 specs) it saves up to 30% of test runs time.
+
+Add test helpers tou your rspec config
+```ruby
+require 'ez/permissions/rspec_helpers'
+
+RSpec.configure do |config|
+  config.include Ez::Permissions::RSpecHelpers
+end
+
+```
+
+Examples:
+```ruby
+user = User.first
+project = Project.first
+
+# Mock role, model role, all permissions and user assigned role. DB will not be touched.
+assume_user_permissions(user, :admin, :all)
+
+# In case when you need real records data to be stored in DB, use
+seed_user_permissions(user, :admin, :create, :update, :users, scoped: project)
+
+# Mock role and who possible could has or not this role
+mock_role(:manager, has: [user], has_not: [User.second], scoped: project)
+
+# Mock model (user) role assignment
+mock_model_role(:worker, user)
+
+# Mock permissions for resources/action
+mock_permission(:users, :create)
 ```
 
 ### Kepp it excplicit!
