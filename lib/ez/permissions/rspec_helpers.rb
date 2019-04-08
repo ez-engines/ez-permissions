@@ -47,22 +47,21 @@ module Ez
         allow(mocked_empty_permission_role).to receive(:pluck).with(:permission_id).and_return([])
 
         # PERMISSIONS
+        # missing for all other actions
+        allow(Ez::Permissions::Permission).to receive(:where).with(
+          id:       mocked_permissions.map(&:id),
+          resource: resource,
+          action:   anything
+        ).and_return([])
+
+        # present only for current actions
         allow(Ez::Permissions::Permission).to receive(:where).with(
           id:       mocked_permissions.map(&:id),
           resource: resource,
           action:   actions.map(&:to_s)
         ).and_return(mocked_permissions)
 
-        # PERMISSIONS missing for all other actions
-        other_resource_actions = Ez::Permissions::DSL.resource(resource).actions.reject { |a| actions.include?(a) }.map(&:to_s)
-
-        allow(Ez::Permissions::Permission).to receive(:where).with(
-          id:       mocked_permissions.map(&:id),
-          resource: resource,
-          action:   other_resource_actions
-        ).and_return([])
-
-        # PERMISSIONS missing for scoped access
+        # missing for scoped access
         allow(Ez::Permissions::Permission).to receive(:where).with(
           id:       [],
           resource: resource,

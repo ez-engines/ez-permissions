@@ -92,9 +92,7 @@ RSpec.describe Ez::Permissions::RSpecHelpers do
     it 'mocks user authorization' do
       expect(Ez::Permissions::API.can?(user, :create, :users)).to eq true
       expect(Ez::Permissions::API.can?(user, :read, :users)).to eq false
-
-      # TODO: Add multiple permissions mock
-      # expect(Ez::Permissions::API.can?(user, :create, :read, :users)).to eq false
+      expect(Ez::Permissions::API.can?(user, :create, :read, :users)).to eq false
     end
   end
 end
