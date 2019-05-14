@@ -36,6 +36,9 @@ Ez::Permissions.configure do |config|
   config.models_roles_table_name = 'my_model_roles'
   config.permissions_roles_table_name = 'my_permissions_roles'
 
+  # Suppress stdoud messages for test environment
+  config.mute_stdout = true if Rails.env.test?
+
   # Define your custom callbacks
   config.handle_no_permission_model = lambda { |context|
     raise 'User not exist'
