@@ -26,33 +26,31 @@ module Ez
       end
 
       def add(name, options = {})
-        if self.class.resource(name)
-          return message("[WARN] Ez::Permissions resource [#{name}] has been already defined!")
-        end
+        return message("Resource [#{name}] has been already defined!") if self.class.resource(name)
 
         resource = Ez::Permissions::Resource.new(name, options)
 
-        message(
-          "[SUCCESS] Ez::Permissions resource [#{name}] has been successfully registred with actions: \
-[#{resource.actions.join(', ')}]"
-        )
-
         @resources << resource
-        seed_to_db resource
+
+        return unless seed_to_db(resource)
+
+        message(
+          "Resource [#{name}] has been successfully registred with actions: [#{resource.actions.join(', ')}]",
+          'SUCCESS'
+        )
       end
 
       private
 
-      def message(txt)
-        STDOUT.puts(txt)
+      def message(txt, level = 'WARN')
+        return if Ez::Permissions.config.mute_stdout
+
+        STDOUT.puts("[#{level}] Ez::Permissions: #{txt}")
       end
 
       def seed_to_db(resource)
         return unless try_db_connection
-
-        return unless ActiveRecord::Base.connection.data_source_exists?(Ez::Permissions.config.permissions_table_name)
-
-        return unless resource.actions
+        return unless check_permissions_table
 
         resource.actions.each do |action|
           Ez::Permissions::Permission.where(
@@ -65,7 +63,15 @@ module Ez
       def try_db_connection
         ActiveRecord::Base.connection
       rescue ActiveRecord::NoDatabaseError
-        STDOUT.puts 'Database does not exist'
+        message('Database does not exist')
+        false
+      end
+
+      def check_permissions_table
+        permissions_table = Ez::Permissions.config.permissions_table_name
+        return true if ActiveRecord::Base.connection.data_source_exists?(permissions_table)
+
+        message("Table #{permissions_table} does not exists. Please, check migrations")
         false
       end
     end

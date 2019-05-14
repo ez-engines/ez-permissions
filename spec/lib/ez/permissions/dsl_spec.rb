@@ -32,5 +32,52 @@ RSpec.describe Ez::Permissions::DSL do
       expect(Ez::Permissions::DSL.resources[1].actions).to eq %i[create read update delete custom]
       expect(Ez::Permissions::DSL.resources[1].model).to eq Project
     end
+
+    context 'log messages to STDOUT' do
+      it 'log message if resources has been already defined' do
+        expect(STDOUT).to receive(:puts).with('[WARN] Ez::Permissions: Resource [users] has been already defined!')
+
+        Ez::Permissions::DSL.define do |setup|
+          setup.add :users, actions: %i[create], model: User
+        end
+      end
+
+      it 'log message if db connection missing' do
+        allow(ActiveRecord::Base).to receive(:connection).and_raise(ActiveRecord::NoDatabaseError)
+
+        expect(STDOUT).to receive(:puts).with('[WARN] Ez::Permissions: Database does not exist')
+
+        Ez::Permissions::DSL.define do |setup|
+          setup.add :dummies, actions: %i[create], model: User
+        end
+      end
+
+      it 'log message if db migrations not passed' do
+        allow(ActiveRecord::Base.connection)
+          .to receive(:data_source_exists?)
+          .with('ez_permissions_permissions')
+          .and_return(false)
+
+        expect(STDOUT)
+          .to receive(:puts)
+          .with('[WARN] Ez::Permissions: Table ez_permissions_permissions does not exists. Please, check migrations')
+
+        Ez::Permissions::DSL.define do |setup|
+          setup.add :other_dummies, actions: %i[create], model: User
+        end
+      end
+
+      it 'suppress stdout if config.mute_stdout' do
+        Ez::Permissions.config.mute_stdout = true
+
+        Ez::Permissions::DSL.define do |setup|
+          setup.add :other_dummies, actions: %i[create], model: User
+        end
+
+        expect(STDOUT).not_to receive(:puts)
+
+        Ez::Permissions.config.mute_stdout = false
+      end
+    end
   end
 end

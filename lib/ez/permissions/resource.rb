@@ -10,7 +10,7 @@ module Ez
       def initialize(name, options = {})
         @name    = name
         @model   = options.fetch(:model, nil)
-        @actions = process_actions(options.fetch(:actions, nil))
+        @actions = process_actions(options.fetch(:actions, []))
       end
 
       def <=>(other)
@@ -20,7 +20,7 @@ module Ez
       private
 
       def process_actions(actions)
-        return ACTIONS unless actions
+        return ACTIONS if actions.empty?
 
         actions.map { |action| action == :crud ? ACTIONS : action }.flatten
       end
