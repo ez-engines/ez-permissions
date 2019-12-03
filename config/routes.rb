@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
-# TODO: Use this for potential UI or API features
-# Ez::Permissions::Engine.routes.draw do
-# end
+Ez::Permissions::Engine.routes.draw do
+  scope module: 'ez/permissions' do
+    root to: 'roles#index'
+
+    resources :roles,       only: :index
+    resources :permissions, only: :index
+  end
+end

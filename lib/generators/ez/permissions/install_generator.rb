@@ -8,7 +8,7 @@ module Ez
                     "# frozen_string_literal: true
 
 Ez::Permissions.configure do |config|
-  # config.permission_table_name = 'ez_permissions_permissions'
+  # config.permissions_table_name = 'ez_permissions_permissions'
   # config.roles_table_name = 'ez_permissions_roles'
   # config.models_roles_table_name = 'ez_permissions_model_roles'
   # config.permissions_roles_table_name = 'ez_permissions_permissions_roles'

@@ -1,0 +1,16 @@
+.ui.grid
+  .six.wide.column
+    = collection_page_header(:roles, pager) do
+     = link_to t('words.add'), '#', class: 'ui green button'
+
+    table.ui.very.basic.celled.table
+      thead
+        tr
+          th = 'Name'
+      tbody
+        - collection.each do |role|
+          tr
+            td.t-name = role.name.humanize
+
+    == paginate(pager)
+

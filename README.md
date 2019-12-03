@@ -97,7 +97,7 @@ user.permissions #=> [user available permissions through assigned_roles]
 
 **Please, do not use direct rails code like:** `Ez::Permissions::Permission.create(name: 'admin')`
 
-Instead you should use public api. You can extend you custom module with `API` mixin
+Instead you should use `Ez::Permissions` public API. Please, extend your custom module with `API` mixin
 ```ruby
 # Use engine facade methods
 Ez::Permissions::API
@@ -116,6 +116,9 @@ end
 # Create regular role
 Permissions.create_role(:user)
 Permissions.create_role(:admin)
+
+# List all roles
+Permissions.list_roles # => [#<Ez::Permissions::Role..., #<Ez::Permissions::Role...]
 
 # Get role object by name
 Permissions.get_role(:user)
@@ -253,6 +256,7 @@ Of course, you can use them as mixins, but it's up to you.
 - [x] Add permissions helpers `authorize` and `authorize!`
 - [x] Move all erros under `Ez::Permissions::API` namespace and add `Error` suffix
 - [ ] Add helper methods for seed grant permissions
+- [ ] Add rake task `rake ez:permissions:cleanup` to cleanup outdated permissions
 
 ## Contributing
 Contribution directions go here.
