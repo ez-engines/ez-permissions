@@ -18,11 +18,11 @@ RSpec.describe 'List roles' do
       expect(page).to have_content 'Roles controller before action works fine'
     end
 
-    within('td#role-admin') do
+    within('tr#role-admin') do
       expect(page).to have_content 'Admin'
     end
 
-    within('td#role-manager') do
+    within('tr#role-manager') do
       expect(page).to have_content 'Manager'
     end
   end

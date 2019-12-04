@@ -9,5 +9,14 @@ en:
         add: Add
         edit: Edit
         remove: Remove
+        submit: Submit
+        cancel: Cancel
+        permissions: Permissions
       fields:
         name: Name
+      messages:
+        invalid: Invalid input. Please, check the errors below
+        update_warning: Warning! Changing role name can hurt your application
+        created: Role has been successfully created
+        updated: Role has been successfully updated
+        removed: Role has been successfully removed

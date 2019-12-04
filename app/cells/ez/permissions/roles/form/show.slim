@@ -1,0 +1,12 @@
+= div_for 'roles-container'
+  = div_for 'roles-inner-container'
+    = div_for 'roles-form-container'
+      = div_for 'roles-form-inner-container'
+        = simple_form_for model, as: :role, url: form_url, method: form_method do |f|
+          = div_for 'roles-form-field'
+            = f.input :name, label: t('roles.fields.name'), html: { required: true }
+
+          br/
+          = div_for 'roles-form-submit-button-container'
+            = f.submit t('roles.actions.submit'), class: css_for('roles-form-submit-button')
+            = link_to t('roles.actions.cancel'), path_for

@@ -3,6 +3,7 @@
 Ez::Permissions.configure do |config|
   require 'ez/permissions/ui'
   config.ui_base_controller = 'ApplicationController'
+  config.ui_base_routes = '/permissions'
 
   config.ui_roles_controller_context = proc do
     before_action do
@@ -19,6 +20,8 @@ Ez::Permissions.configure do |config|
     'ez-permissions-roles-header-inner-container' => 'dummy-roles-header-inner-container',
     'ez-permissions-roles-header-inner-container' => 'dummy-roles-header-inner-container',
     'ez-permissions-roles-header-label'           => 'dummy-roles-header-label',
-    'ez-permissions-roles-table'                  => 'dummy-roles-table'
+    'ez-permissions-roles-table'                  => 'dummy-roles-table',
+    'ez-permissions-roles-form-inner-container'   => 'dummy-roles-form',
+    'ez-permissions-roles-form-field'             => 'dummy-roles-form-field',
   }
 end

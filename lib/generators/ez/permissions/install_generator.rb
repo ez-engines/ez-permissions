@@ -23,6 +23,24 @@ Ez::Permissions.configure do |config|
   #  here you can define your custom callback
   #  in case when model (user) is not authorized
   # }
+
+  # If you want to use permissions UI capabilities
+  # require 'ez/permissions/ui'
+
+  # Define your base UI controller
+  # config.ui_base_controller = 'ApplicationController'
+  # config.ui_base_routes = '/permissions'
+
+  # Add custom code to Ez::Permissions::RolesController
+  # config.ui_roles_controller_context = proc do
+  #     before_action :authrozre_user!
+  # end
+
+  # Permissions UI ships with default generated CSS classes.
+  # You always can inspect them in the browser and override
+  # config.ui_custom_css_map = {
+  #   'ez-permissions-roles-container' => 'you custom css classes here'
+  # }
 end
 "
       end

@@ -1,18 +1,24 @@
-div class=(css_for 'roles-container')
-  div class=(css_for 'roles-inner-container')
+= div_for 'roles-container'
+  = div_for 'roles-inner-container'
 
-    div class=(css_for 'roles-header-container')
-      div class=(css_for 'roles-header-inner-container')
+    = div_for 'roles-header-container'
+      = div_for 'roles-header-inner-container'
         h2 class=(css_for 'roles-header-label') = t('roles.label')
 
-      div class=(css_for 'roles-add-button-container')
-        = link_to t('roles.actions.add'), '#', class: css_for('roles-add-button')
+      = div_for 'roles-add-button-container'
+        = link_to t('roles.actions.add'), path_for('roles/new'), class: css_for('roles-add-button')
 
     table class=(css_for 'roles-table')
       thead class=(css_for 'roles-table-thead')
         tr class=(css_for 'roles-table-thead-tr')
           th class=(css_for 'roles-table-thead-th') = t('roles.fields.name')
+          th class=(css_for 'roles-table-thead-th')
+          th class=(css_for 'roles-table-thead-th')
       tbody class=(css_for 'roles-table-tbody')
         - model.each do |role|
-          tr class=(css_for 'roles-table-tbody-tr')
-            td class=(css_for 'roles-table-tbody-td-name') id=("role-#{role.name}") = role.name.humanize
+          tr class=(css_for 'roles-table-tbody-tr') id=("role-#{role.name}")
+            td class=(css_for 'roles-table-tbody-td-name') style="width: 70%" = role.name.humanize
+            td class=(css_for 'roles-table-tbody-td-actions')
+              = link_to t('roles.actions.edit'), path_for("roles/#{role.id}/edit")
+            td class=(css_for 'roles-table-tbody-td-actions')
+              = link_to t('roles.actions.permissions'), path_for("roles/#{role.id}/permissions")

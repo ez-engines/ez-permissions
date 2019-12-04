@@ -62,11 +62,23 @@ Ez::Permissions.configure do |config|
   # Permissions UI ships with default generated CSS classes.
   # You always can inspect them in the browser and override
   config.ui_custom_css_map = {
-    'ez-permissions-roles-container' => 'you custom css class'
+    'ez-permissions-roles-container' => 'you custom css classes here'
   }
 end
 
 ```
+
+### UI routes
+In your `routes.rb`
+
+```ruby
+Rails.application.routes.draw do
+  namespace :admin do
+    ez_permissions_ui_routes
+  end
+end
+```
+
 ### ActiveRecord migrations:
 
 **If you need change table names, please change configuration first**
