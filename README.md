@@ -47,6 +47,23 @@ Ez::Permissions.configure do |config|
   config.handle_not_authorized = lambda { |context|
     raise 'Not authorized'
   }
+
+  # If you want to use permissions UI capabilities
+  require 'ez/permissions/ui'
+
+  # Define your base UI controller
+  config.ui_base_controller = 'ApplicationController'
+
+  # Add custom code to Ez::Permissions::RolesController
+  config.ui_roles_controller_context = proc do
+    before_action :authrozre_user!
+  end
+
+  # Permissions UI ships with default generated CSS classes.
+  # You always can inspect them in the browser and override
+  config.ui_custom_css_map = {
+    'ez-permissions-roles-container' => 'you custom css class'
+  }
 end
 
 ```
@@ -243,18 +260,6 @@ Of course, you can use them as mixins, but it's up to you.
 - User with scoped role - can't access global resources.
 
 ## TODO
-- [x] Add README
-- [x] Add Role model
-- [x] Add Permissions model
-- [x] Add PermissionsRole model
-- [x] Add rails generators for migrations
-- [x] Add rails generators for configuration
-- [x] Add configuration DSL
-- [x] Add Permissions API for managing relationships
-- [x] User can has multiple roles
-- [x] Better errors for non-existing records
-- [x] Add permissions helpers `authorize` and `authorize!`
-- [x] Move all erros under `Ez::Permissions::API` namespace and add `Error` suffix
 - [ ] Add helper methods for seed grant permissions
 - [ ] Add rake task `rake ez:permissions:cleanup` to cleanup outdated permissions
 

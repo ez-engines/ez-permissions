@@ -1,0 +1,13 @@
+en:
+  ez_permissions:
+    label: Permissions
+    permissions:
+      label: Permissions
+    roles:
+      label: Roles
+      actions:
+        add: Add
+        edit: Edit
+        remove: Remove
+      fields:
+        name: Name

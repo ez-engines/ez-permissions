@@ -27,13 +27,16 @@ Gem::Specification.new do |s|
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
-  s.add_dependency 'ez-core', '~> 0.1.1'
-
-  s.add_dependency 'rails',    '>= 5.2'
+  s.add_dependency 'cells-rails', '~> 0.1.0'
+  s.add_dependency 'cells-slim',  '~> 0.0.6'
+  s.add_dependency 'ez-core',     '~> 0.2'
+  s.add_dependency 'rails',       '>= 5.2', '<= 7.0'
 
   s.add_development_dependency 'bundler', '~> 2.0'
+  s.add_development_dependency 'capybara'
   s.add_development_dependency 'faker'
   s.add_development_dependency 'guard-rspec'
+  s.add_development_dependency 'launchy'
   s.add_development_dependency 'pry-rails'
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'rubocop'

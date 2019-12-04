@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'ez/permissions/routes'
-
 module Ez
   module Permissions
-    module UI
+    module Roles
+      class IndexCell < ApplicationCell
+      end
     end
   end
 end

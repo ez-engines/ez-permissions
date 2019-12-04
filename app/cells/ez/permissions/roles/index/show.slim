@@ -1,0 +1,18 @@
+div class=(css_for 'roles-container')
+  div class=(css_for 'roles-inner-container')
+
+    div class=(css_for 'roles-header-container')
+      div class=(css_for 'roles-header-inner-container')
+        h2 class=(css_for 'roles-header-label') = t('roles.label')
+
+      div class=(css_for 'roles-add-button-container')
+        = link_to t('roles.actions.add'), '#', class: css_for('roles-add-button')
+
+    table class=(css_for 'roles-table')
+      thead class=(css_for 'roles-table-thead')
+        tr class=(css_for 'roles-table-thead-tr')
+          th class=(css_for 'roles-table-thead-th') = t('roles.fields.name')
+      tbody class=(css_for 'roles-table-tbody')
+        - model.each do |role|
+          tr class=(css_for 'roles-table-tbody-tr')
+            td class=(css_for 'roles-table-tbody-td-name') id=("role-#{role.name}") = role.name.humanize

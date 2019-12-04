@@ -1,15 +1,14 @@
+# frozen_string_literal: true
+
 module Ez
   module Permissions
     class RolesController < Ez::Permissions::ApplicationController
-
-      def index
-        # view :index
+      if Ez::Permissions.config.ui_roles_controller_context
+        instance_exec(&Ez::Permissions.config.ui_roles_controller_context)
       end
 
-      private
-
-      def collection
-        @collection ||= Ez::Permissions::Role.all
+      def index
+        view 'roles/index', Ez::Permissions::Role.all
       end
     end
   end

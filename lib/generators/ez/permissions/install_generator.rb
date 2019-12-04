@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/MethodLength
 module Ez
   module Permissions
     class InstallGenerator < Rails::Generators::Base
@@ -25,6 +26,25 @@ Ez::Permissions.configure do |config|
 end
 "
       end
+
+      def create_locale_file
+        create_file 'config/locales/ez_permissions.en.yml',
+                    "en:
+  ez_permissions:
+    label: Permissions
+    permissions:
+      label: Permissions
+    roles:
+      label: Roles
+      actions:
+        add: Add
+        edit: Edit
+        remove: Remove
+      fields:
+        name: Name
+        "
+      end
     end
   end
 end
+# rubocop:enable Metrics/MethodLength

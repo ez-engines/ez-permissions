@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  mount Ez::Permissions::Engine => '/ez-permissions'
+  ez_permissions_ui_routes
 end
