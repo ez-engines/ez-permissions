@@ -46,6 +46,12 @@ module Ez
         end
       end
 
+      def destroy
+        role.destroy
+        flash[:alert] = t('roles.messages.removed', scope: ApplicationCell::I18N_SCOPE)
+        redirect_to Ez::Permissions.config.ui_base_routes
+      end
+
       private
 
       def role

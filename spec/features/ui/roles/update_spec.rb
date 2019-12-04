@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Create role' do
+RSpec.describe 'Update role' do
   let!(:admin) { Ez::Permissions::Role.create(name: 'admin') }
 
   scenario 'success' do

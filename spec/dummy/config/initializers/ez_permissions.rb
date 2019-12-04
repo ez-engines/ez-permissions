@@ -11,6 +11,8 @@ Ez::Permissions.configure do |config|
     end
   end
 
+  config.ui_roles_actions = %i[edit remove]
+
   config.ui_custom_css_map = {
     'ez-permissions-roles-container'              => 'dummy-roles-container',
     'ez-permissions-roles-inner-container'        => 'dummy-roles-inner-container',

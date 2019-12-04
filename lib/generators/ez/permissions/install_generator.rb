@@ -36,6 +36,9 @@ Ez::Permissions.configure do |config|
   #     before_action :authrozre_user!
   # end
 
+  # By default, UI will not allow you to update and remove roles. It's dangerous
+  # config.ui_roles_actions = %i[edit remove]
+
   # Permissions UI ships with default generated CSS classes.
   # You always can inspect them in the browser and override
   # config.ui_custom_css_map = {
@@ -58,8 +61,18 @@ end
         add: Add
         edit: Edit
         remove: Remove
+        submit: Submit
+        cancel: Cancel
+        permissions: Permissions
       fields:
         name: Name
+      messages:
+        invalid: Invalid input. Please, check the errors below
+        update_warning: Warning! Changing role name can hurt your application
+        remove_confirmation: Warning! Role removal can hurt your application. Are you sure?
+        created: Role has been successfully created
+        updated: Role has been successfully updated
+        removed: Role has been successfully removed
         "
       end
     end
