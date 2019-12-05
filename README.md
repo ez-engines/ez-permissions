@@ -209,8 +209,10 @@ Permissions.authorize!(user, :create, :users, scoped: project) do
   # for user creation in particular project
 end
 
-# otherwise catch exception
-Ez::Permissions::API::Authrozation::NotAuthorized
+# otherwise you will get an exception
+Ez::Permissions::NotAuthorized
+
+# Both .authrorize and .authorize! methods can be used without blocks.
 
 # if you don't want raise exception, just use
 Permissions.authorize(user, :create, :users) { puts 'Yeahh!' } #=> false
@@ -256,6 +258,14 @@ mock_model_role(:worker, user)
 mock_permission(:users, :create)
 ```
 
+### Cleaup redundant permissions
+If you changed your permissions DSL and removed redundant resources and actions
+
+```sh
+rake ez:permissions:outdated # display list of outdated permissions
+rake ez:permissions:cleanup # remove outdated permissions from the DB
+```
+
 ### Kepp it excplicit!
 You can wonder, why we just not add authorization methods to user instance, like:
 ```ruby
@@ -276,7 +286,7 @@ Of course, you can use them as mixins, but it's up to you.
 
 ## TODO
 - [ ] Add helper methods for seed grant permissions
-- [ ] Add rake task `rake ez:permissions:cleanup` to cleanup outdated permissions
+- [ ] Cached permissions. If single UI has multiple checks for one user - we can cache it!
 
 ## Contributing
 Contribution directions go here.

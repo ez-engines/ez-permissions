@@ -12,7 +12,7 @@ module Ez
           @actions_names ||= permissions_actions
                              .map(&:action)
                              .uniq
-                             .sort_by { |a| !(COMMON_ACTIONS_ORDER.index(a).to_s || a) }
+                             .sort_by { |a| (COMMON_ACTIONS_ORDER.index(a).to_s || a) }
         end
 
         def resources_names

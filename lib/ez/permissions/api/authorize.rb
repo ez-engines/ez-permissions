@@ -4,8 +4,6 @@ module Ez
   module Permissions
     module API
       module Authorize
-        NotAuthorized = Class.new(StandardError)
-
         def authorize!(model, *actions, resource, scoped: nil, &block)
           authorize(model, *actions, resource, scoped: scoped, raise_exception: true, &block)
         end
@@ -13,13 +11,21 @@ module Ez
         def authorize(model, *actions, resource, scoped: nil, raise_exception: false)
           return handle_no_permission_model_callback.call(self) if handle_no_permission_model_callback && !model
 
-          return yield if can?(model, *actions, resource, scoped: scoped)
+          if can?(model, *actions, resource, scoped: scoped)
+            if block_given?
+              return yield
+            else
+              return true
+            end
+          end
 
-          return handle_not_authorized_callback.call(self) if handle_not_authorized_callback
-
-          raise NotAuthorized, not_authorized_msg(model, actions, resource, scoped) if raise_exception
-
-          false
+          if handle_not_authorized_callback
+            handle_not_authorized_callback.call(self)
+          elsif raise_exception
+            raise NotAuthorizedError, not_authorized_msg(model, actions, resource, scoped)
+          else
+            false
+          end
         end
 
         def can?(model, *actions, resource, scoped: nil)

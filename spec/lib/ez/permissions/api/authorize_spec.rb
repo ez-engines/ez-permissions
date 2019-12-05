@@ -30,7 +30,16 @@ RSpec.describe Ez::Permissions::API::Authorize do
         expect do
           described_class.authorize!(user, :create, :users) { dummy_code.call }
         end.to raise_error(
-          Ez::Permissions::API::Authorize::NotAuthorized,
+          Ez::Permissions::NotAuthorizedError,
+          "User##{user.id} is not authorized to [create -> users]"
+        )
+      end
+
+      it 'fails try access to resource without block' do
+        expect do
+          described_class.authorize!(user, :create, :users)
+        end.to raise_error(
+          Ez::Permissions::NotAuthorizedError,
           "User##{user.id} is not authorized to [create -> users]"
         )
       end
@@ -39,7 +48,16 @@ RSpec.describe Ez::Permissions::API::Authorize do
         expect do
           described_class.authorize!(user, :create, :update, :users, scoped: project) { dummy_code.call }
         end.to raise_error(
-          Ez::Permissions::API::Authorize::NotAuthorized,
+          Ez::Permissions::NotAuthorizedError,
+          "User##{user.id} is not authorized to [create, update -> users] for Project##{project.id}"
+        )
+      end
+
+      it 'fails try access to scoped resource without block' do
+        expect do
+          described_class.authorize!(user, :create, :update, :users, scoped: project)
+        end.to raise_error(
+          Ez::Permissions::NotAuthorizedError,
           "User##{user.id} is not authorized to [create, update -> users] for Project##{project.id}"
         )
       end
@@ -52,6 +70,12 @@ RSpec.describe Ez::Permissions::API::Authorize do
         expect(dummy_code).to receive(:call)
 
         described_class.authorize!(user, :create, :read, :update, :delete, :users) { dummy_code.call }
+      end
+
+      it 'return true object if admin without block' do
+        Ez::Permissions::API.assign_role(user, :admin)
+
+        expect(described_class.authorize!(user, :create, :read, :update, :delete, :users)).to eq true
       end
 
       it 'execute block if user' do
@@ -79,7 +103,7 @@ RSpec.describe Ez::Permissions::API::Authorize do
         expect do
           described_class.authorize!(user, :create, :users) { dummy_code.call }
         end.to raise_error(
-          Ez::Permissions::API::Authorize::NotAuthorized,
+          Ez::Permissions::NotAuthorizedError,
           "User##{user.id} is not authorized to [create -> users]"
         )
       end
@@ -90,7 +114,7 @@ RSpec.describe Ez::Permissions::API::Authorize do
         expect do
           described_class.authorize!(user, :create, :users) { dummy_code.call }
         end.to raise_error(
-          Ez::Permissions::API::Authorize::NotAuthorized,
+          Ez::Permissions::NotAuthorizedError,
           "User##{user.id} is not authorized to [create -> users]"
         )
       end
@@ -103,7 +127,7 @@ RSpec.describe Ez::Permissions::API::Authorize do
         expect do
           described_class.authorize!(user, :create, :users) { dummy_code.call }
         end.to raise_error(
-          Ez::Permissions::API::Authorize::NotAuthorized,
+          Ez::Permissions::NotAuthorizedError,
           "User##{user.id} is not authorized to [create -> users]"
         )
       end
@@ -116,7 +140,7 @@ RSpec.describe Ez::Permissions::API::Authorize do
         expect do
           described_class.authorize!(user, :create, :users, scoped: project) { dummy_code.call }
         end.to raise_error(
-          Ez::Permissions::API::Authorize::NotAuthorized,
+          Ez::Permissions::NotAuthorizedError,
           "User##{user.id} is not authorized to [create -> users] for Project##{project.id}"
         )
       end
@@ -124,7 +148,7 @@ RSpec.describe Ez::Permissions::API::Authorize do
   end
 
   describe '.authorize' do
-    context 'withour callbacks' do
+    context 'without callbacks' do
       it 'execute block if admin' do
         Ez::Permissions::API.assign_role(user, :admin)
 
