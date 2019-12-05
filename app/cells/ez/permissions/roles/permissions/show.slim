@@ -1,0 +1,55 @@
+= div_for 'container'
+  = div_for 'inner-container'
+
+    = div_for 'header-container'
+      = div_for 'header-inner-container'
+        h2 class=(css_for 'header-label') = model.name.humanize
+
+    = div_for 'permissions-grant-all-container'
+      = check_box_tag "grant_all", "grant_all", all_granted?, onclick: "checkAll(this)", id: 'permission-grant-all'
+      = label_tag "grant_all", t('permissions.actions.grant_all')
+
+    = form_for :permissions, url: form_url do |f|
+      table class=(css_for 'table')
+        thead class=(css_for 'table-thead')
+          tr class=(css_for 'table-thead-tr')
+            th class=(css_for 'table-thead-th') = t('permissions.fields.resource')
+            th class=(css_for 'table-thead-th') = t('permissions.fields.all')
+            - actions_names.each do |action_name|
+              th class=(css_for 'table-thead-th') = action_name.humanize
+        tbody class=(css_for 'table-tbody')
+          - resources_names.each do |resource_name|
+            tr class=(css_for 'table-tbody-tr') id=("resource-#{resource_name}")
+              td class=(css_for 'table-tbody-td-name') style="width: 70%" = resource_name.humanize
+              td class=(css_for 'table-tbody-td-action') id=("permission-#{resource_name}-all")
+                = check_box_tag "all_permissions[]", "all-permission-#{resource_name}", all_granted?(resource_name), class: 'toggle-all-resource-actions', id: "permission-checkbox-#{resource_name}"
+              - actions_names.each do |action_name|
+                td class=(css_for 'table-tbody-td-action') id=("permission-#{resource_name}-#{action_name}")
+                  = permission_checkbox(resource_name, action_name)
+
+
+      = f.submit t('permissions.actions.update'), class: css_for('permissions-submit-button')
+      = link_to t('permissions.actions.cancel'), path_for, class: css_for('permissions-cancel-link')
+
+javascript:
+  // Toggle all checkboxes
+  function checkAll(bx) {
+    var cbs = document.getElementsByTagName('input');
+    for(var i=0; i < cbs.length; i++) {
+      if(cbs[i].type == 'checkbox') {
+        cbs[i].checked = bx.checked;
+      }
+    }
+  }
+
+  // Toggle only row checkboxes
+  var checkboxes = document.querySelectorAll('.toggle-all-resource-actions');
+  [].forEach.call(checkboxes, function(checkbox) {
+    checkbox.onchange = function() {
+      var currentRow = this.parentNode.parentNode;
+      var cbElems = currentRow.querySelectorAll('[type="checkbox"]');
+      [].forEach.call(cbElems, function(cb) {
+        cb.checked = this.checked;
+      }.bind(this))
+    };
+  });

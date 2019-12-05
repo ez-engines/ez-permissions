@@ -33,8 +33,23 @@ Ez::Permissions.configure do |config|
 
   # Add custom code to Ez::Permissions::RolesController
   # config.ui_roles_controller_context = proc do
-  #     before_action :authrozre_user!
+  #   before_action :authrozre_user!
+  #   before_action do
+  #     Ez::Permissions::API.authorize!(current_user, :read, :users)
+  #   end
   # end
+
+  # Add custom code to Ez::Permissions::PermissionsController
+  # config.ui_roles_controller_context = proc do
+  #   before_action :authrozre_user!
+  #   before_action do
+  #     Ez::Permissions::API.authorize!(current_user, :update, :permissions)
+  #   end
+  # end
+
+
+  # By default actions ordered by name  as create > read > update > delete
+  # config.ui_actions_ordering = %w[list create read update delete]
 
   # By default, UI will not allow you to update and remove roles. It's dangerous
   # config.ui_roles_actions = %i[edit remove]
@@ -55,6 +70,15 @@ end
     label: Permissions
     permissions:
       label: Permissions
+      actions:
+        grant_all: Grant all
+        update: Update
+        cancel: Cancel
+      fields:
+        resource: Resource
+        all: All
+      messages:
+        updated: Permissions has been successfully updated
     roles:
       label: Roles
       actions:

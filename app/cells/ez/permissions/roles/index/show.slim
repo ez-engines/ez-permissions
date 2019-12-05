@@ -1,30 +1,30 @@
-= div_for 'roles-container'
-  = div_for 'roles-inner-container'
+= div_for 'container'
+  = div_for 'inner-container'
 
-    = div_for 'roles-header-container'
-      = div_for 'roles-header-inner-container'
-        h2 class=(css_for 'roles-header-label') = "#{t('roles.label')} (#{model.size})"
+    = div_for 'header-container'
+      = div_for 'header-inner-container'
+        h2 class=(css_for 'header-label') = "#{t('roles.label')} (#{model.size})"
 
-      = div_for 'roles-add-button-container'
-        = link_to t('roles.actions.add'), path_for('roles/new'), class: css_for('roles-add-button')
+      = div_for 'add-button-container'
+        = link_to t('roles.actions.add'), path_for('roles/new'), class: css_for('add-button')
 
-    table class=(css_for 'roles-table')
-      thead class=(css_for 'roles-table-thead')
-        tr class=(css_for 'roles-table-thead-tr')
-          th class=(css_for 'roles-table-thead-th') = t('roles.fields.name')
-          th class=(css_for 'roles-table-thead-th') colspan="3"
-      tbody class=(css_for 'roles-table-tbody')
+    table class=(css_for 'table')
+      thead class=(css_for 'table-thead')
+        tr class=(css_for 'table-thead-tr')
+          th class=(css_for 'table-thead-th') = t('roles.fields.name')
+          th class=(css_for 'table-thead-th') colspan="3"
+      tbody class=(css_for 'table-tbody')
         - model.each do |role|
-          tr class=(css_for 'roles-table-tbody-tr') id=("role-#{role.name}")
-            td class=(css_for 'roles-table-tbody-td-name') style="width: 70%" = role.name.humanize
+          tr class=(css_for 'table-tbody-tr') id=("role-#{role.name}")
+            td class=(css_for 'table-tbody-td-name') style="width: 70%" = role.name.humanize
 
             - if can_edit?
-              td class=(css_for 'roles-table-tbody-td-actions')
-                = link_to t('roles.actions.edit'), path_for("roles/#{role.id}/edit"), class: css_for('roles-table-edit-link')
+              td class=(css_for 'table-tbody-td-actions')
+                = link_to t('roles.actions.edit'), path_for("roles/#{role.id}/edit"), class: css_for('table-edit-link')
 
             - if can_remove?
-              td class=(css_for 'roles-table-tbody-td-actions')
-                = link_to t('roles.actions.remove'), path_for("roles/#{role.id}"), method: :delete, data: { confirm: t('roles.messages.remove_confirmation') }, class: css_for('roles-table-remove-link')
+              td class=(css_for 'table-tbody-td-actions')
+                = link_to t('roles.actions.remove'), path_for("roles/#{role.id}"), method: :delete, data: { confirm: t('roles.messages.remove_confirmation') }, class: css_for('table-remove-link')
 
-            td class=(css_for 'roles-table-tbody-td-actions')
-              = link_to t('roles.actions.permissions'), '#', class: css_for('roles-table-permissions-link')
+            td class=(css_for 'table-tbody-td-actions')
+              = role_permissions_link(role)

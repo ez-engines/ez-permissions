@@ -8,7 +8,7 @@ RSpec.describe 'Create role' do
   scenario 'success' do
     visit '/permissions'
 
-    within '.dummy-roles-add-button-container' do
+    within '.dummy-add-button-container' do
       click_link 'Add'
     end
 
@@ -18,7 +18,7 @@ RSpec.describe 'Create role' do
       expect(page).to have_content 'Roles controller before action works fine'
     end
 
-    within '.dummy-roles-form' do
+    within '.dummy-form' do
       expect(page).to have_field :role_name
       expect(page).to have_button 'Submit'
       expect(page).to have_link 'Cancel'
@@ -42,7 +42,7 @@ RSpec.describe 'Create role' do
 
     expect { click_button 'Submit' }.not_to(change { Ez::Permissions::Role.count })
 
-    within '.dummy-roles-form-field' do
+    within '.dummy-form-field' do
       expect(page).to have_content "can't be blank"
     end
 
@@ -51,7 +51,7 @@ RSpec.describe 'Create role' do
 
     expect { click_button 'Submit' }.not_to(change { Ez::Permissions::Role.count })
 
-    within '.dummy-roles-form-field' do
+    within '.dummy-form-field' do
       expect(page).to have_content 'taken'
     end
   end

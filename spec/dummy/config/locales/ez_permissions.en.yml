@@ -3,6 +3,15 @@ en:
     label: Permissions
     permissions:
       label: Permissions
+      actions:
+        grant_all: Grant all!
+        update: Update
+        cancel: Cancel
+      fields:
+        resource: Resource
+        all: All
+      messages:
+        updated: Permissions has been successfully updated
     roles:
       label: Roles
       actions:
@@ -17,7 +26,7 @@ en:
       messages:
         invalid: Invalid input. Please, check the errors below
         update_warning: Warning! Changing role name can hurt your application
-        remove_conformation: Warning! Role removal can hurt your application
+        remove_confirmation: Warning! Role removal can hurt your application. Are you sure?
         created: Role has been successfully created
         updated: Role has been successfully updated
         removed: Role has been successfully removed

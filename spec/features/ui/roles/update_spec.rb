@@ -36,7 +36,7 @@ RSpec.describe 'Update role' do
 
     expect { click_button 'Submit' }.not_to(change { Ez::Permissions::Role.count })
 
-    within '.dummy-roles-form-field' do
+    within '.dummy-form-field' do
       expect(page).to have_content "can't be blank"
     end
 
@@ -45,7 +45,7 @@ RSpec.describe 'Update role' do
 
     expect { click_button 'Submit' }.not_to(change { Ez::Permissions::Role.count })
 
-    within '.dummy-roles-form-field' do
+    within '.dummy-form-field' do
       expect(page).to have_content 'taken'
     end
   end

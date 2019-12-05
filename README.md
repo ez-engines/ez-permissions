@@ -59,6 +59,9 @@ Ez::Permissions.configure do |config|
     before_action :authrozre_user!
   end
 
+  # By default actions ordered by name  as create > read > update > delete
+  config.ui_actions_ordering = %w[list create read update delete]
+
   # Permissions UI ships with default generated CSS classes.
   # You always can inspect them in the browser and override
   config.ui_custom_css_map = {

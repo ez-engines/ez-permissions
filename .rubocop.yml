@@ -17,5 +17,5 @@ Layout/HashAlignment:
 
 Metrics/BlockLength:
   ExcludedMethods: [
-    'describe', 'context', 'it', 'let', 'before', 'after', 'aggregate_failures'
+    'describe', 'context', 'it', 'let', 'before', 'after', 'aggregate_failures', 'scenario'
   ]
