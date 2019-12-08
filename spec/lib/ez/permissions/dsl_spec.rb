@@ -80,4 +80,8 @@ RSpec.describe Ez::Permissions::DSL do
       end
     end
   end
+
+  describe '.resources'
+  describe '.resource'
+  describe '.has_resource_action?'
 end

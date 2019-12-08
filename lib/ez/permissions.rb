@@ -15,5 +15,7 @@ module Ez
       config.models_roles_table_name      = 'ez_permissions_model_roles'
       config.permissions_roles_table_name = 'ez_permissions_permissions_roles'
     end
+
+    NotAuthorizedError = Class.new(StandardError)
   end
 end

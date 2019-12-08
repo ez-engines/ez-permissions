@@ -10,7 +10,7 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 require 'pry-rails'
 
-Dir[Ez::Permissions::Engine.root.join('spec/support/*.rb')].each { |f| require f }
+Dir['spec/support/*.rb'].each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
 
