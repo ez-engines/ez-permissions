@@ -6,6 +6,10 @@ module Ez
       module Roles
         RoleNotFound = Class.new(StandardError)
 
+        def list_roles
+          Role.all
+        end
+
         def create_role(name)
           Role.create(name: name)
         end

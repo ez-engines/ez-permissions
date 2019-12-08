@@ -19,6 +19,13 @@ module Ez
         DSL.instance.resources.find { |r| r.name.to_sym == name.to_sym }
       end
 
+      def self.resource_action?(resource_name, action_name)
+        registed_resource = resource(resource_name)
+        action = registed_resource.actions.include?(action_name.to_sym) if registed_resource
+
+        registed_resource && action ? true : false
+      end
+
       attr_reader :resources
 
       def initialize

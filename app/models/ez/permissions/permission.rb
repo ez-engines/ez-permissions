@@ -7,6 +7,8 @@ module Ez
 
       validates :resource, presence: true
       validates :action, presence: true
+
+      has_many :permission_roles, dependent: :destroy
     end
   end
 end

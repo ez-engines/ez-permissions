@@ -11,11 +11,11 @@ Style/Documentation:
 Metrics/LineLength:
   Max: 120
 
-Layout/AlignHash:
+Layout/HashAlignment:
   EnforcedColonStyle: table
   EnforcedHashRocketStyle: table
 
 Metrics/BlockLength:
   ExcludedMethods: [
-    'describe', 'context', 'it', 'let', 'before', 'after', 'aggregate_failures'
+    'describe', 'context', 'it', 'let', 'before', 'after', 'aggregate_failures', 'scenario'
   ]

@@ -9,6 +9,10 @@ module Ez
 
       validates :name, presence: true
       validates :name, uniqueness: true
+
+      before_validation do
+        self.name = name&.parameterize
+      end
     end
   end
 end

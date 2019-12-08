@@ -5,6 +5,18 @@ require 'rails_helper'
 RSpec.describe Ez::Permissions::API::Roles do
   before { described_class.extend described_class }
 
+  describe '.list_roles' do
+    let!(:admin)   { Ez::Permissions::API.create_role(:admin) }
+    let!(:manager) { Ez::Permissions::API.create_role(:manager) }
+
+    it 'returns a list of all roles' do
+      result = described_class.list_roles
+      expect(result.size).to eq 2
+      expect(result).to include(admin)
+      expect(result).to include(manager)
+    end
+  end
+
   describe '.create_role' do
     it 'creates role' do
       user_role = described_class.create_role('user')

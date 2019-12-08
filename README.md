@@ -97,7 +97,7 @@ user.permissions #=> [user available permissions through assigned_roles]
 
 **Please, do not use direct rails code like:** `Ez::Permissions::Permission.create(name: 'admin')`
 
-Instead you should use public api. You can extend you custom module with `API` mixin
+Instead you should use `Ez::Permissions` public API. Please, extend your custom module with `API` mixin
 ```ruby
 # Use engine facade methods
 Ez::Permissions::API
@@ -116,6 +116,9 @@ end
 # Create regular role
 Permissions.create_role(:user)
 Permissions.create_role(:admin)
+
+# List all roles
+Permissions.list_roles # => [#<Ez::Permissions::Role..., #<Ez::Permissions::Role...]
 
 # Get role object by name
 Permissions.get_role(:user)
@@ -174,8 +177,10 @@ Permissions.authorize!(user, :create, :users, scoped: project) do
   # for user creation in particular project
 end
 
-# otherwise catch exception
-Ez::Permissions::API::Authrozation::NotAuthorized
+# otherwise you will get an exception
+Ez::Permissions::NotAuthorized
+
+# Both .authrorize and .authorize! methods can be used without blocks.
 
 # if you don't want raise exception, just use
 Permissions.authorize(user, :create, :users) { puts 'Yeahh!' } #=> false
@@ -221,6 +226,14 @@ mock_model_role(:worker, user)
 mock_permission(:users, :create)
 ```
 
+### Cleaup redundant permissions
+If you changed your permissions DSL and removed redundant resources and actions
+
+```sh
+rake ez:permissions:outdated # display list of outdated permissions
+rake ez:permissions:cleanup # remove outdated permissions from the DB
+```
+
 ### Kepp it excplicit!
 You can wonder, why we just not add authorization methods to user instance, like:
 ```ruby
@@ -240,19 +253,9 @@ Of course, you can use them as mixins, but it's up to you.
 - User with scoped role - can't access global resources.
 
 ## TODO
-- [x] Add README
-- [x] Add Role model
-- [x] Add Permissions model
-- [x] Add PermissionsRole model
-- [x] Add rails generators for migrations
-- [x] Add rails generators for configuration
-- [x] Add configuration DSL
-- [x] Add Permissions API for managing relationships
-- [x] User can has multiple roles
-- [x] Better errors for non-existing records
-- [x] Add permissions helpers `authorize` and `authorize!`
-- [x] Move all erros under `Ez::Permissions::API` namespace and add `Error` suffix
 - [ ] Add helper methods for seed grant permissions
+- [ ] Cached permissions. If single UI has multiple checks for one user - we can cache it!
+- [ ] Not all permissions should be manageable through UI, like roles and permissions.
 
 ## Contributing
 Contribution directions go here.
