@@ -19,6 +19,24 @@ RSpec.describe Ez::Permissions::API::Authorize do
     Ez::Permissions::API.grant_permission(:user, :read, :users)
   end
 
+  describe '.model_permissions' do
+    it 'build user permissions hash' do
+      Ez::Permissions::API.assign_role(user, :admin)
+
+      result = Ez::Permissions::API.model_permissions(user)
+
+      expect(result).to be_instance_of(Ez::Permissions::API::Authorize::ModelPermissions)
+      expect(result.permissions_map.size).to eq 2
+      expect(result.permissions_map[:create_users]).to eq true
+      expect(result.permissions_map[:read_users]).to eq true
+      expect(result.can?(:read, :users)).to eq true
+      expect(result.can?(:update, :users)).to eq false
+
+      expect(result.authorize!(:read, :users)).to eq true
+      expect { result.authorize!(:update, :users) }.to raise_error(Ez::Permissions::NotAuthorizedError)
+    end
+  end
+
   describe '.authorize!' do
     context 'has no roles' do
       before do

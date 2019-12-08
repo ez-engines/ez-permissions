@@ -191,6 +191,28 @@ Permissions.can?(user, :create, :users) => # true
 Permissions.can?(user, :create, :users, scoped: project) => # false
 ```
 
+### Caching user permissions
+
+If in one HTTP request (e.g. navigation menu rendering) you don't want to hit the database with dozens of queries, you can cache all user permission in a hash
+
+```ruby
+user_permissions =  Permissions.model_permissions_map(user)
+user_permissions # => #<Ez::Permissions::API::Authorize::ModelPermissions...
+
+# You can fetch permissions as a hash
+user_permissions.permissions_map # => { :read_users => true}
+
+# and the in your code just fetch by the key:
+if user_permissions.permissions_map[:read_users]
+  # execute authrorized code
+end
+
+# or user #can? and #authorize! helper methods
+user_permissions.can?(:read, :users) # => true
+user_permissions.can?(:create, :users) # => false
+user_permissions.authorize!(:create, :users) # => raise Ez::Permissions::NotAuthorized
+```
+
 ### Testing
 EzPermissions ships with bunch of RSpec helper methods that helps mock permission.
 For large test suite (more than 5000 specs) it saves up to 30% of test runs time.

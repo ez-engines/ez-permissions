@@ -1,9 +1,19 @@
 # frozen_string_literal: true
 
+require_relative 'authorize/model_permissions'
+
 module Ez
   module Permissions
     module API
       module Authorize
+        def model_permissions(model)
+          ModelPermissions.new(
+            model.permissions.each_with_object({}) do |permission, acum|
+              acum["#{permission.action}_#{permission.resource}".to_sym] = true
+            end
+          )
+        end
+
         def authorize!(model, *actions, resource, scoped: nil, &block)
           authorize(model, *actions, resource, scoped: scoped, raise_exception: true, &block)
         end
