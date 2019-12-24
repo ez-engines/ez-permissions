@@ -17,7 +17,7 @@ module Ez
 
           def authorize!(action_name, resource_name)
             permissions_map.fetch(to_key(action_name, resource_name))
-          rescue KeyError => ex
+          rescue KeyError
             raise Ez::Permissions::NotAuthorizedError
           end
 
