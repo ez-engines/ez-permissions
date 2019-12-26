@@ -38,7 +38,7 @@ RSpec.describe Ez::Permissions::Model do
       expect(user.roles.map(&:class).uniq).to eq [Ez::Permissions::Role]
     end
 
-    it 'has many unqique permissions' do
+    it 'has many unique permissions' do
       expect(user.permissions.size).to eq 3
       expect(user.permissions.map(&:resource)).to eq %w[users users projects]
       expect(user.permissions.map(&:action)).to eq %w[create read create]

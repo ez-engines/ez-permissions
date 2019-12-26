@@ -67,7 +67,7 @@ RSpec.describe Ez::Permissions::DSL do
         end
       end
 
-      it 'suppress stdout if config.mute_stdout' do
+      it 'suppress STDOUT if config.mute_stdout' do
         Ez::Permissions.config.mute_stdout = true
 
         Ez::Permissions::DSL.define do |setup|

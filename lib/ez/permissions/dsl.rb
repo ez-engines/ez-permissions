@@ -42,7 +42,7 @@ module Ez
         return unless seed_to_db(resource)
 
         message(
-          "Resource [#{name}] has been successfully registred with actions: [#{resource.actions.join(', ')}]",
+          "Resource [#{name}] has been successfully registered with actions: [#{resource.actions.join(', ')}]",
           'SUCCESS'
         )
       end
