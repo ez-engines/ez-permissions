@@ -7,16 +7,16 @@ module Ez
       def self.included(base)
         base.has_many :assigned_roles,
                       class_name: 'Ez::Permissions::ModelRole',
-                      as:         :model
+                      as: :model
 
         base.has_many :roles,
                       -> { distinct },
-                      through:    :assigned_roles,
+                      through: :assigned_roles,
                       class_name: 'Ez::Permissions::Role'
 
         base.has_many :permissions,
                       -> { distinct },
-                      through:    :roles,
+                      through: :roles,
                       class_name: 'Ez::Permissions::Permission'
       end
       # rubocop:enable Metrics/MethodLength
