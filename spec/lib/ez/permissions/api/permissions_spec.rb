@@ -9,7 +9,7 @@ RSpec.describe Ez::Permissions::API::Permissions do
   let(:read_project_permission) { described_class.get_permission!(:read, :projects) }
 
   describe '.get_permission!' do
-    it 'returns permision record' do
+    it 'returns permission record' do
       permission = described_class.get_permission!(:read, :projects)
 
       expect(permission.action).to eq 'read'

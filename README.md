@@ -7,9 +7,9 @@
 **Ez Permissions** (read as "easy permissions") - one of the [ez-engines](https://github.com/ez-engines) collection that helps easily add permissions interface to your [Rails](http://rubyonrails.org/) application.
 
 - Most advanced RBAC model:
-- Flexible tool with simple DSL and confguration
+- Flexible tool with simple DSL and configuration
 - All in one solution
-- Convetion over configuration principles.
+- Convention over configuration principles.
 - Depends on [ez-core](https://github.com/ez-engines/ez-core)
 
 ## Installation
@@ -36,7 +36,7 @@ Ez::Permissions.configure do |config|
   config.models_roles_table_name = 'my_model_roles'
   config.permissions_roles_table_name = 'my_permissions_roles'
 
-  # Suppress stdoud messages for test environment
+  # Suppress STDOUT messages for test environment
   config.mute_stdout = true if Rails.env.test?
 
   # Define your custom callbacks
@@ -61,7 +61,7 @@ rails generate ez:permissions:migrations
 
 ## DSL
 
-Simple DSL for difinition of permission relationships
+Simple DSL for definition of permission relationships
 ```ruby
 Ez::Permissions::DSL.define do |setup|
   # You need add all resources of your application and possible actions
@@ -89,7 +89,7 @@ user = User.first
 
 # User model become permission model
 user.roles #=> [application level roles]
-user.assigned_roles #=> [user owned roles, gloabal and scoped]
+user.assigned_roles #=> [user owned roles, global and scoped]
 user.permissions #=> [user available permissions through assigned_roles]
 ```
 
@@ -180,7 +180,7 @@ end
 # otherwise you will get an exception
 Ez::Permissions::NotAuthorized
 
-# Both .authrorize and .authorize! methods can be used without blocks.
+# Both .authorize and .authorize! methods can be used without blocks.
 
 # if you don't want raise exception, just use
 Permissions.authorize(user, :create, :users) { puts 'Yeahh!' } #=> false
@@ -204,7 +204,7 @@ user_permissions.permissions_map # => { :read_users => true}
 
 # and the in your code just fetch by the key:
 if user_permissions.permissions_map[:read_users]
-  # execute authrorized code
+  # execute authorized code
 end
 
 # or user #can? and #authorize! helper methods
@@ -217,7 +217,7 @@ user_permissions.authorize!(:create, :users) # => raise Ez::Permissions::NotAuth
 EzPermissions ships with bunch of RSpec helper methods that helps mock permission.
 For large test suite (more than 5000 specs) it saves up to 30% of test runs time.
 
-Add test helpers tou your rspec config
+Add test helpers to your rspec config
 ```ruby
 require 'ez/permissions/rspec_helpers'
 
@@ -248,7 +248,7 @@ mock_model_role(:worker, user)
 mock_permission(:users, :create)
 ```
 
-### Cleaup redundant permissions
+### Cleanup redundant permissions
 If you changed your permissions DSL and removed redundant resources and actions
 
 ```sh
@@ -256,7 +256,7 @@ rake ez:permissions:outdated # display list of outdated permissions
 rake ez:permissions:cleanup # remove outdated permissions from the DB
 ```
 
-### Kepp it excplicit!
+### Keep it explicit!
 You can wonder, why we just not add authorization methods to user instance, like:
 ```ruby
 user.can?(:something)
@@ -270,7 +270,7 @@ Of course, you can use them as mixins, but it's up to you.
 - User can has role in scope of some resource (Project, Company, Business, etc.)
 - User can has role in global scope (without scope)
 - If user want access data in scope of resource - user must has assigned role scoped for this resource
-- If user want access data in global scope - user must has assigned role wihtout any scoped resorce (global role)
+- If user want access data in global scope - user must has assigned role without any scoped resource (global role)
 - User with global role - can't access scoped resources.
 - User with scoped role - can't access global resources.
 
