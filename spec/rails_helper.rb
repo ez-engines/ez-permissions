@@ -10,11 +10,11 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 require 'pry-rails'
 
-Dir['spec/support/*.rb'].each { |f| require f }
+Dir['spec/support/*.rb'].sort.each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
 
-Dir['../spec/support/**/*.rb'].each { |f| require f }
+Dir['../spec/support/**/*.rb'].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = true
@@ -23,6 +23,6 @@ RSpec.configure do |config|
 end
 
 Ez::Permissions::DSL.define do |setup|
-  setup.add :users,    actions: %i[create read], model: User
+  setup.add :users,    actions: %i[create read], model: User, group: :accounts
   setup.add :projects, actions: %i[crud custom], model: Project
 end

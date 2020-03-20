@@ -5,12 +5,13 @@ module Ez
     class Resource
       ACTIONS = %i[create read update delete].freeze
 
-      attr_reader :name, :model, :actions
+      attr_reader :name, :model, :actions, :group
 
       def initialize(name, options = {})
         @name    = name
         @model   = options.fetch(:model, nil)
         @actions = process_actions(options.fetch(:actions, []))
+        @group   = options.fetch(:group, nil)
       end
 
       def <=>(other)
