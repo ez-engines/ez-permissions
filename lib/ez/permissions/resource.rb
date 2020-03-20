@@ -11,7 +11,7 @@ module Ez
         @name    = name
         @model   = options.fetch(:model, nil)
         @actions = process_actions(options.fetch(:actions, []))
-        @group   = options.fetch(:group, nil)
+        @group   = options.fetch(:group, :others)
       end
 
       def <=>(other)

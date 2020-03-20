@@ -72,8 +72,8 @@ Ez::Permissions::DSL.define do |setup|
   setup.add :permissions, actions: %i[crud my_custom_action]
 
   # Actions option are not required. In such case you add all crud actions by default
-  setup.add :users
-  setup.add :projects
+  setup.add :users, group: :accounts # You can group resources
+  setup.add :projects # Resource without a group will get "others" group
 end
 ```
 

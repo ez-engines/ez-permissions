@@ -32,7 +32,7 @@ RSpec.describe Ez::Permissions::DSL do
       expect(Ez::Permissions::DSL.resources[1].name).to eq :projects
       expect(Ez::Permissions::DSL.resources[1].actions).to eq %i[create read update delete custom]
       expect(Ez::Permissions::DSL.resources[1].model).to eq Project
-      expect(Ez::Permissions::DSL.resources[1].group).to eq nil
+      expect(Ez::Permissions::DSL.resources[1].group).to eq :others
     end
 
     context 'log messages to STDOUT' do

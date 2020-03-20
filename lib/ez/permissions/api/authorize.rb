@@ -53,9 +53,9 @@ module Ez
           permission_ids = Ez::Permissions::PermissionRole.where(role_id: role_ids).pluck(:permission_id)
 
           Ez::Permissions::Permission.where(
-            id: permission_ids,
+            id:       permission_ids,
             resource: resource,
-            action: actions.map(&:to_s)
+            action:   actions.map(&:to_s)
           )
         end
 
