@@ -26,6 +26,15 @@ module Ez
           model_role(role, model, scoped) ? true : false
         end
 
+        def list_by_role(role_name, scoped: nil)
+          role = Ez::Permissions::API.get_role!(role_name)
+
+          Ez::Permissions::ModelRole.where(
+            role:   role,
+            scoped: scoped
+          ).map(&:model)
+        end
+
         private
 
         def model_role(role, model, scoped)

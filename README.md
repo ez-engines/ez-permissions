@@ -146,6 +146,10 @@ Permissions.includes_role?(user, :admin)
 # Check if user includes scoped role
 project = Project.first
 Permissions.includes_role?(user, :manager, scoped: project)
+
+# List users with particular role in particular scope
+project = Project.first
+Permissions.list_by_role(:manager, scoped: project)
 ```
 
 ### Permissions

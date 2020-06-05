@@ -109,4 +109,35 @@ RSpec.describe Ez::Permissions::API::Models do
       )
     end
   end
+
+  describe '.list_by_role' do
+    let!(:manager_role) { Ez::Permissions::API.create_role(:manager) }
+
+    let(:user1) { User.create!(email: 'user1@dummy.test') }
+    let(:user2) { User.create!(email: 'user2@dummy.test') }
+    let(:user3) { User.create!(email: 'user3@dummy.test') }
+    let(:user4) { User.create!(email: 'user4@dummy.test') }
+
+    let(:project1) { Project.create!(name: 'Project 1') }
+    let(:project2) { Project.create!(name: 'Project 2') }
+
+    before do
+      described_class.assign_role(user1, :manager, scoped: project1)
+      described_class.assign_role(user2, :manager, scoped: project1)
+      described_class.assign_role(user3, :manager, scoped: project2)
+      described_class.assign_role(user4, :manager)
+    end
+
+    context 'with scoped' do
+      it 'returns objects with particular role in particular scope' do
+        expect(described_class.list_by_role(:manager, scoped: project1)).to contain_exactly(user1, user2)
+      end
+    end
+
+    context 'without scoped' do
+      it 'returns objects with particular role without scope' do
+        expect(described_class.list_by_role(:manager)).to contain_exactly(user4)
+      end
+    end
+  end
 end
