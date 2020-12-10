@@ -28,11 +28,13 @@ RSpec.describe Ez::Permissions::DSL do
       expect(Ez::Permissions::DSL.resources[0].actions).to eq %i[create read]
       expect(Ez::Permissions::DSL.resources[0].model).to eq User
       expect(Ez::Permissions::DSL.resources[0].group).to eq :accounts
+      expect(Ez::Permissions::DSL.resources[0].label).to eq 'Users'
 
       expect(Ez::Permissions::DSL.resources[1].name).to eq :projects
       expect(Ez::Permissions::DSL.resources[1].actions).to eq %i[create read update delete custom]
       expect(Ez::Permissions::DSL.resources[1].model).to eq Project
       expect(Ez::Permissions::DSL.resources[1].group).to eq :others
+      expect(Ez::Permissions::DSL.resources[1].label).to eq 'My Projects'
     end
 
     context 'log messages to STDOUT' do

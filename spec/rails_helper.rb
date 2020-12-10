@@ -24,5 +24,5 @@ end
 
 Ez::Permissions::DSL.define do |setup|
   setup.add :users,    actions: %i[create read], model: User, group: :accounts
-  setup.add :projects, actions: %i[crud custom], model: Project
+  setup.add :projects, actions: %i[crud custom], model: Project, label: 'My Projects'
 end
