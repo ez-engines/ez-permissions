@@ -52,7 +52,7 @@ module Ez
       def message(txt, level = 'WARN')
         return if Ez::Permissions.config.mute_stdout
 
-        STDOUT.puts("[#{level}] Ez::Permissions: #{txt}")
+        $stdout.puts("[#{level}] Ez::Permissions: #{txt}")
       end
 
       def seed_to_db(resource)

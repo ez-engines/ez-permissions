@@ -39,7 +39,7 @@ RSpec.describe Ez::Permissions::DSL do
 
     context 'log messages to STDOUT' do
       it 'log message if resources has been already defined' do
-        expect(STDOUT).to receive(:puts).with('[WARN] Ez::Permissions: Resource [users] has been already defined!')
+        expect($stdout).to receive(:puts).with('[WARN] Ez::Permissions: Resource [users] has been already defined!')
 
         Ez::Permissions::DSL.define do |setup|
           setup.add :users, actions: %i[create], model: User
@@ -49,7 +49,7 @@ RSpec.describe Ez::Permissions::DSL do
       it 'log message if db connection missing' do
         allow(ActiveRecord::Base).to receive(:connection).and_raise(ActiveRecord::NoDatabaseError)
 
-        expect(STDOUT).to receive(:puts).with('[WARN] Ez::Permissions: Database does not exist')
+        expect($stdout).to receive(:puts).with('[WARN] Ez::Permissions: Database does not exist')
 
         Ez::Permissions::DSL.define do |setup|
           setup.add :dummies, actions: %i[create], model: User
@@ -62,7 +62,7 @@ RSpec.describe Ez::Permissions::DSL do
           .with('ez_permissions_permissions')
           .and_return(false)
 
-        expect(STDOUT)
+        expect($stdout)
           .to receive(:puts)
           .with('[WARN] Ez::Permissions: Table ez_permissions_permissions does not exists. Please, check migrations')
 
@@ -78,7 +78,7 @@ RSpec.describe Ez::Permissions::DSL do
           setup.add :other_dummies, actions: %i[create], model: User
         end
 
-        expect(STDOUT).not_to receive(:puts)
+        expect($stdout).not_to receive(:puts)
 
         Ez::Permissions.config.mute_stdout = false
       end

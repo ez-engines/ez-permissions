@@ -7,7 +7,7 @@ namespace :ez do
       Ez::Permissions::Permission.find_each do |permission|
         next if Ez::Permissions::DSL.resource_action?(permission.resource, permission.action)
 
-        STDOUT.puts '[WARNING] Ez::Permissions:'\
+        $stdout.puts '[WARNING] Ez::Permissions:'\
           "Permission##{permission.id} [#{permission.resource} -> #{permission.action}] is redundant"
       end
     end
@@ -17,7 +17,7 @@ namespace :ez do
         next if Ez::Permissions::DSL.resource_action?(permission.resource, permission.action)
 
         permission.destroy
-        STDOUT.puts '[WARNING] Ez::Permissions:'\
+        $stdout.puts '[WARNING] Ez::Permissions:'\
           "Permission##{permission.id} [#{permission.resource} -> #{permission.action}] is removed"
       end
     end

@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.summary     = 'Easy permissions engine for Rails app.'
   s.description = 'Easy permissions engine for Rails app.'
   s.license     = 'MIT'
-  s.required_ruby_version = '>= 2.4.0'
+  s.required_ruby_version = '>= 2.5.0'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -38,5 +38,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'rubocop'
   s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'sqlite3', '~> 1.3.6'
+  s.add_development_dependency 'sqlite3', '~> 1.4'
 end
