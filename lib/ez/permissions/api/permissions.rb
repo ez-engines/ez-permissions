@@ -28,7 +28,7 @@ module Ez
           permission = get_permission!(action, resource)
 
           Ez::Permissions::PermissionRole.find_by(
-            role:       role,
+            role: role,
             permission: permission
           )&.delete
         end
@@ -37,7 +37,7 @@ module Ez
 
         def grant_single_permission(role, permission)
           Ez::Permissions::PermissionRole.find_or_create_by!(
-            role:       role,
+            role: role,
             permission: permission
           )
         end

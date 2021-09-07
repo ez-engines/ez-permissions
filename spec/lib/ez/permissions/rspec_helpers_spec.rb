@@ -16,14 +16,14 @@ RSpec.describe Ez::Permissions::RSpecHelpers do
 
     let(:create_users_permission_role) do
       Ez::Permissions::PermissionRole.find_by(
-        role:       admin_role,
+        role: admin_role,
         permission: create_users_permission
       )
     end
 
     let(:read_users_permission_role) do
       Ez::Permissions::PermissionRole.find_by(
-        role:       admin_role,
+        role: admin_role,
         permission: read_users_permission
       )
     end

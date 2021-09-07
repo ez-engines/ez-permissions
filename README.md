@@ -31,7 +31,7 @@ Configuration interface allows you to change default behavior
 ```ruby
 Ez::Permissions.configure do |config|
   # If in generated migrations you changed table names, please configure them here:
-  config.permission_table_name = 'my_permissions'
+  config.permissions_table_name = 'my_permissions'
   config.roles_table_name = 'my_roles'
   config.models_roles_table_name = 'my_model_roles'
   config.permissions_roles_table_name = 'my_permissions_roles'

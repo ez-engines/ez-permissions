@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ez-permissions (0.6.0)
+    ez-permissions (0.6.1)
       ez-core (~> 0.2)
       rails (>= 5.2, <= 7.0)
 
