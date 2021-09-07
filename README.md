@@ -280,8 +280,6 @@ Of course, you can use them as mixins, but it's up to you.
 
 ## TODO
 - [ ] Add helper methods for seed grant permissions
-- [ ] Cached permissions. If single UI has multiple checks for one user - we can cache it!
-- [ ] Not all permissions should be manageable through UI, like roles and permissions.
 
 ## Contributing
 Contribution directions go here.
