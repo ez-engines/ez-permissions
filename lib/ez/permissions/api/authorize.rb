@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'authorize/model_permissions'
+require_relative 'authorize/godmode_permissions'
 
 module Ez
   module Permissions
@@ -8,10 +9,17 @@ module Ez
       module Authorize
         def model_permissions(model)
           ModelPermissions.new(
-            model.permissions.each_with_object({}) do |permission, acum|
-              acum["#{permission.action}_#{permission.resource}".to_sym] = true
+            model.class.includes(assigned_roles: {role: :permissions}).find(model.id).assigned_roles.each_with_object({}) do |assigned_role, acum|
+              scoped_key = [assigned_role.scoped_type, assigned_role.scoped_id].compact.join("_")
+              assigned_role.role.permissions.each do |permission|
+                acum["#{permission.action}_#{permission.resource}_#{scoped_key}".to_sym] = true
+              end
             end
           )
+        end
+
+        def godmode_permissions
+          GodmodPermissions.new({})
         end
 
         def authorize!(model, *actions, resource, scoped: nil, &block)

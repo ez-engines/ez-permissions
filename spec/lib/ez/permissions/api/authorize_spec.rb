@@ -27,12 +27,26 @@ RSpec.describe Ez::Permissions::API::Authorize do
 
       expect(result).to be_instance_of(Ez::Permissions::API::Authorize::ModelPermissions)
       expect(result.permissions_map.size).to eq 2
-      expect(result.permissions_map[:create_users]).to eq true
-      expect(result.permissions_map[:read_users]).to eq true
+      expect(result.permissions_map[:create_users_]).to eq true
+      expect(result.permissions_map[:read_users_]).to eq true
       expect(result.can?(:read, :users)).to eq true
       expect(result.can?(:update, :users)).to eq false
 
       expect(result.authorize!(:read, :users)).to eq true
+      expect { result.authorize!(:update, :users) }.to raise_error(Ez::Permissions::NotAuthorizedError)
+    end
+
+    it 'build user permissions hash with scoped grants' do
+      Ez::Permissions::API.assign_role(user, :admin, scoped: project)
+
+      result = Ez::Permissions::API.model_permissions(user)
+
+      expect(result).to be_instance_of(Ez::Permissions::API::Authorize::ModelPermissions)        
+      expect(result.permissions_map[:"create_users_Project_#{project.id}"]).to eq true
+      expect(result.permissions_map[:"read_users_Project_#{project.id}"]).to eq true
+      expect(result.can?(:read, :users)).to eq false
+      expect(result.can?(:read, :users, scoped: project)).to eq true
+      expect(result.authorize!(:read, :users, scoped: project)).to eq true
       expect { result.authorize!(:update, :users) }.to raise_error(Ez::Permissions::NotAuthorizedError)
     end
   end
