@@ -157,7 +157,7 @@ Permissions.list_by_role(:manager, scoped: project)
 # Create a role
 Permissions.create_role(:user)
 
-# Grant role's possibility to have action per resource
+# Grant role's ability to have action per resource
 Permissions.grant_permission(:user, :read, :projects)
 
 # Grant all defined actions per resource
