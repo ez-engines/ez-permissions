@@ -24,7 +24,7 @@ module Ez
           private
 
           def to_key(action_name, resource_name, scoped = nil)
-            scoped_key = [scoped&.class, scoped&.id].compact.join("_")
+            scoped_key = [scoped&.class, scoped&.id].compact.join('_')
             "#{action_name}_#{resource_name}_#{scoped_key}".to_sym
           end
         end

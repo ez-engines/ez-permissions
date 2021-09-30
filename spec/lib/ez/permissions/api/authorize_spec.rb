@@ -41,7 +41,7 @@ RSpec.describe Ez::Permissions::API::Authorize do
 
       result = Ez::Permissions::API.model_permissions(user)
 
-      expect(result).to be_instance_of(Ez::Permissions::API::Authorize::ModelPermissions)        
+      expect(result).to be_instance_of(Ez::Permissions::API::Authorize::ModelPermissions)
       expect(result.permissions_map[:"create_users_Project_#{project.id}"]).to eq true
       expect(result.permissions_map[:"read_users_Project_#{project.id}"]).to eq true
       expect(result.can?(:read, :users)).to eq false

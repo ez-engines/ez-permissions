@@ -8,8 +8,8 @@ module Ez
           role = Ez::Permissions::API.get_role!(role_name)
 
           Ez::Permissions::ModelRole.find_or_create_by!(
-            role: role,
-            model: model,
+            role:   role,
+            model:  model,
             scoped: scoped
           )
         end
@@ -30,7 +30,7 @@ module Ez
           role = Ez::Permissions::API.get_role!(role_name)
 
           Ez::Permissions::ModelRole.where(
-            role: role,
+            role:   role,
             scoped: scoped
           ).map(&:model)
         end
@@ -39,8 +39,8 @@ module Ez
 
         def model_role(role, model, scoped)
           Ez::Permissions::ModelRole.find_by(
-            role: role,
-            model: model,
+            role:   role,
+            model:  model,
             scoped: scoped
           )
         end

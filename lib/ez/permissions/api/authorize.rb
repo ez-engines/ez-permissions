@@ -9,8 +9,8 @@ module Ez
       module Authorize
         def model_permissions(model)
           ModelPermissions.new(
-            model.class.includes(assigned_roles: {role: :permissions}).find(model.id).assigned_roles.each_with_object({}) do |assigned_role, acum|
-              scoped_key = [assigned_role.scoped_type, assigned_role.scoped_id].compact.join("_")
+            model.class.includes(assigned_roles: { role: :permissions }).find(model.id).assigned_roles.each_with_object({}) do |assigned_role, acum|
+              scoped_key = [assigned_role.scoped_type, assigned_role.scoped_id].compact.join('_')
               assigned_role.role.permissions.each do |permission|
                 acum["#{permission.action}_#{permission.resource}_#{scoped_key}".to_sym] = true
               end
@@ -61,9 +61,9 @@ module Ez
           permission_ids = Ez::Permissions::PermissionRole.where(role_id: role_ids).pluck(:permission_id)
 
           Ez::Permissions::Permission.where(
-            id: permission_ids,
+            id:       permission_ids,
             resource: resource,
-            action: actions.map(&:to_s)
+            action:   actions.map(&:to_s)
           )
         end
 

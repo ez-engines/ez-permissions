@@ -5,7 +5,7 @@ module Ez
     class Role < ApplicationRecord
       self.table_name = Ez::Permissions.config.roles_table_name
 
-      has_and_belongs_to_many :permissions
+      has_and_belongs_to_many :permissions, join_table: Ez::Permissions.config.permissions_roles_table_name
 
       validates :name, presence: true
       validates :name, uniqueness: true

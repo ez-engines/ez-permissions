@@ -62,7 +62,7 @@ module Ez
         resource.actions.each do |action|
           Ez::Permissions::Permission.where(
             resource: resource.name,
-            action: action
+            action:   action
           ).first_or_create!
         end
       end
