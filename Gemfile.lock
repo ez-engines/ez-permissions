@@ -3,7 +3,7 @@ PATH
   specs:
     ez-permissions (0.7.0)
       ez-core (~> 0.2)
-      rails (>= 5.2, <= 7.0)
+      rails (>= 5.2)
 
 GEM
   remote: https://rubygems.org/
